@@ -1,5 +1,5 @@
 /** Disciplines of orienteering, shared by events and as tags on news. Labels: `discipline.*` in ui.ts. */
-export const disciplines = ["o-pe", "escolar", "mtbo", "raid", "trail-o", "rogaine"] as const;
+export const disciplines = ["o-pe", "sprint", "escolar", "mtbo", "raid", "trail-o", "rogaine", "iniciacion", "duatlon-o"] as const;
 export type Discipline = (typeof disciplines)[number];
 
 /** The news filters of the design. Labels: `newsTopic.*` in ui.ts. */

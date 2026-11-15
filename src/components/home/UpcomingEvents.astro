@@ -4,9 +4,10 @@ import EventCard from "./EventCard.astro";
 import { buttonVariants } from "@/components/ui/button";
 import { links } from "@/data/site";
 import { getUpcomingEvents } from "@/lib/events";
-import { getLangFromUrl, useTranslations } from "@/i18n/utils";
+import { getLangFromUrl, routePath, useTranslations } from "@/i18n/utils";
 
-const t = useTranslations(getLangFromUrl(Astro.url));
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 const upcomingEvents = await getUpcomingEvents();
 ---
 
@@ -19,7 +20,7 @@ const upcomingEvents = await getUpcomingEvents();
     <p class="mb-[22px] leading-relaxed font-light text-muted">{t("events.intro1")}</p>
     <p class="mb-[22px] leading-relaxed font-light text-muted">{t("events.intro2")}</p>
     <div class="mt-[18px] flex flex-wrap gap-[15px]">
-      <a class={buttonVariants({ variant: "dark" })} href={links.events}>{t("events.more")}</a>
+      <a class={buttonVariants({ variant: "dark" })} href={routePath("events", lang)}>{t("events.more")}</a>
       <a class={buttonVariants()} href={links.intranet}>{t("events.personalArea")}<ArrowUpRight /></a>
     </div>
   </div>

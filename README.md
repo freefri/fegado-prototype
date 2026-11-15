@@ -21,7 +21,9 @@ El buscador de noticias solo funciona con la web generada (`npm run build` y `np
 
 - `src/pages/`: una ruta por página; las de castellano van en `src/pages/es/`.
 - `src/content/news/<año>/`: una noticia por archivo Markdown.
-- `src/content/events/`: los eventos de la portada (de momento, los del diseño).
+- `src/content/events/<año>/`: un evento por archivo Markdown, con su cartel en `src/assets/images/events/`.
+- `src/content/documents.json`: la lista de documentos de Transparencia (los archivos siguen en fegado.es).
+- `src/content/board.yaml`: la Xunta Directiva.
 - `src/content/pages/<idioma>/`: páginas de texto (Sobre FEGADO, preguntas frecuentes) en MDX, una por idioma.
 - `src/content/clubs.yaml`: los clubs, con su logo en `src/assets/images/clubs/`.
 - `src/components/`: piezas de la web; `src/components/ui/` son los componentes de shadcn/ui.
@@ -30,22 +32,27 @@ El buscador de noticias solo funciona con la web generada (`npm run build` y `np
 - `src/data/`: enlaces, contacto y registro de imágenes.
 - `src/styles/global.css`: colores, tipografías y variables del tema.
 
-### Noticias
+### Contenido de la web actual
 
-Las noticias se importan de <https://fegado.es/> y no se traducen: cada una indica en `lang` el
-idioma en que se escribió.
+Noticias, eventos y documentos se importan de <https://fegado.es/>. Las noticias no se traducen:
+cada una indica en `lang` el idioma en que se escribió.
 
 ```bash
-node scripts/import-news.mjs --since 2026    # noticias desde 2026
-node scripts/import-news.mjs --all           # todo el archivo
+node scripts/import-news.mjs --since 2026     # noticias desde 2026 (--all: todo el archivo)
+node scripts/import-news.mjs --categorize     # adivina categorías para las que no tienen
+node scripts/import-events.mjs --since 2026   # eventos desde la temporada 2026, con sus carteles
+node scripts/import-documents.mjs             # lista de documentos de Transparencia
 ```
 
-Solo descarga lo nuevo; con `--force` vuelve a generar las existentes, conservando los campos
-añadidos a mano (`image`, `imagePosition`, `categories`) y el `lang` corregido.
+Solo descargan lo nuevo; con `--force` vuelven a generar lo existente, conservando los campos
+añadidos a mano: en noticias `image`, `imagePosition`, `categories` y el `lang` corregido; en eventos
+`poster`, `heroImage` y `demoSecondsLeft`. La web actual no tiene categorías de noticias, así que el
+importador las adivina por el título; conviene revisarlas.
 
 Toda imagen nueva se añade a `src/data/images.ts` con su origen y propietario. Si falta en el
-registro, o una entrada deja de usarse, `npm run build` falla. Los logos de los clubs se registran
-como carpeta: cada archivo debe aparecer en `src/content/clubs.yaml`.
+registro, o una entrada deja de usarse, `npm run build` falla. Los logos de los clubs y los carteles
+de los eventos se registran como carpeta: cada archivo debe aparecer en `src/content/clubs.yaml` o
+en un evento de `src/content/events/`.
 
 ## Licencia
 

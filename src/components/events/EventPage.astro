@@ -1,0 +1,109 @@
+---
+import { render } from "astro:content";
+import { ArrowLeft, ArrowUpRight, Calendar, Download, Mail, User } from "@lucide/astro";
+import EventPoster from "./EventPoster.astro";
+import EventsCta from "./EventsCta.astro";
+import EventCard from "@/components/home/EventCard.astro";
+import SocialIcon from "@/components/SocialIcon.astro";
+import { badgeVariants } from "@/components/ui/badge";
+import Base from "@/layouts/Base.astro";
+import { getLangFromUrl, routePath, useTranslations } from "@/i18n/utils";
+import { getSortedEvents, relatedEvents, type EventEntry } from "@/lib/events";
+import { metaDate } from "@/lib/format";
+
+interface Props {
+  event: EventEntry;
+}
+
+const { event } = Astro.props;
+const { data } = event;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const { Content } = await render(event);
+const related = relatedEvents(event, await getSortedEvents());
+
+const url = encodeURIComponent(new URL(Astro.url.pathname, Astro.site).href);
+const text = encodeURIComponent(data.title);
+const share = [
+  { name: "linkedin", label: "LinkedIn", href: `https://www.linkedin.com/sharing/share-offsite/?url=${url}` },
+  { name: "facebook", label: "Facebook", href: `https://www.facebook.com/sharer/sharer.php?u=${url}` },
+  { name: "x", label: "X", href: `https://x.com/intent/post?url=${url}&text=${text}` },
+  { name: "whatsapp", label: "WhatsApp", href: `https://wa.me/?text=${text}%20${url}` },
+] as const;
+const iconButton = "grid size-[30px] place-items-center rounded-full border border-chip-ink/70 bg-white text-chip-ink no-underline hover:bg-chip [&_svg]:size-3.5";
+const back = "inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[13px] text-chip-ink no-underline hover:bg-chip";
+const outlined = "flex items-center justify-between gap-3 rounded-[14px] border border-chip-ink/70 bg-white px-4 py-3 text-chip-ink no-underline hover:bg-chip";
+// The poster is shown on its own, so it is left out of the downloads.
+const attachments = data.attachments.filter((file) => file.url !== data.posterUrl);
+---
+
+<Base title={`${data.title} · FEGADO`}>
+  <div class="mx-auto grid max-w-[1440px] gap-12 px-4 pt-10 pb-16 md:px-10 md:pt-14 lg:grid-cols-[minmax(0,770px)_minmax(0,410px)] lg:justify-between xl:px-[75px]">
+    <article>
+      <a href={routePath("events", lang)} class={`${back} mb-6`}><ArrowLeft class="size-3.5" />{t("newsItem.back")}</a>
+      <div class="mb-3"><span class={badgeVariants()}>{t(`discipline.${data.discipline}`)}</span></div>
+      <h1 class="mb-6 text-[30px] leading-[1.15] md:text-4xl">{data.title}</h1>
+
+      <div class="mb-10 flex flex-wrap items-center justify-between gap-4">
+        <div class="flex flex-wrap gap-x-5 gap-y-1.5 text-[11px] font-semibold text-ink-soft">
+          <span>{data.official ? t("events.official") : t("events.unofficial")}</span>
+          <span class="inline-flex items-center gap-1.5"><Calendar class="size-3" /><time datetime={data.date.toISOString()}>{metaDate(data.date, lang)}</time></span>
+          <span class="inline-flex items-center gap-1.5 uppercase"><User class="size-3" />{data.club}</span>
+        </div>
+        <ul aria-label={t("newsItem.share")} class="flex list-none gap-2 p-0">
+          {share.map((item) => (
+            <li><a class={iconButton} href={item.href} aria-label={`${t("newsItem.share")}: ${item.label}`} rel="noopener" target="_blank"><SocialIcon name={item.name} /></a></li>
+          ))}
+          <li><a class={iconButton} href={`mailto:?subject=${text}&body=${url}`} aria-label={`${t("newsItem.share")}: email`}><Mail /></a></li>
+        </ul>
+      </div>
+
+      {data.registrationUrl && (
+        <section class="mb-10">
+          <h2 class="mb-4 text-2xl">{t("event.register")}</h2>
+          <div class="grid gap-3 sm:grid-cols-2">
+            <a class={outlined} href={data.registrationUrl}>{t("event.federated")}<span class="grid size-[30px] place-items-center rounded-full border border-current"><ArrowUpRight class="size-3.5" /></span></a>
+            <a class={outlined} href={data.registrationUrl}>{t("event.notFederated")}<span class="grid size-[30px] place-items-center rounded-full border border-current"><ArrowUpRight class="size-3.5" /></span></a>
+          </div>
+          {data.registrationDeadline && (
+            <p class="mt-3 text-sm font-light text-ink-soft">{t("event.deadline", { date: metaDate(data.registrationDeadline, lang) })}</p>
+          )}
+        </section>
+      )}
+
+      <h2 class="mb-4 text-2xl">{t("event.about")}</h2>
+      <div class="news-body">
+        <Content />
+      </div>
+
+      <div class="mt-12 flex flex-wrap items-center justify-between gap-4">
+        <a href={routePath("events", lang)} class={back}><ArrowLeft class="size-3.5" />{t("newsItem.back")}</a>
+        {data.legacyUrl && <a href={data.legacyUrl} class="text-sm text-muted underline">{t("newsItem.original")}</a>}
+      </div>
+    </article>
+
+    <aside class="lg:pt-[70px]">
+      <EventPoster event={event} widths={[410, 820]} sizes="(max-width: 1024px) 100vw, 410px" class="mb-10 h-auto w-full rounded-md" loading="eager" />
+      {attachments.length > 0 && (
+        <section>
+          <h2 class="mb-4 text-[28px]">{t("newsItem.attachments")}</h2>
+          <ul class="grid list-none gap-2.5 p-0">
+            {attachments.map((file) => (
+              <li><a href={file.url} class={`${outlined} justify-start`} target="_blank" rel="noopener"><Download class="size-4 shrink-0" />{file.title}</a></li>
+            ))}
+          </ul>
+        </section>
+      )}
+    </aside>
+  </div>
+
+  {related.length > 0 && (
+    <section class="mx-auto max-w-[1440px] px-4 pb-20 md:px-10 xl:px-[75px]">
+      <h2 class="mb-8 text-[34px] md:text-4xl">{t("newsItem.relatedEvents")}</h2>
+      <div class="grid gap-[30px] md:grid-cols-2 xl:grid-cols-3">
+        {related.map((other) => <EventCard event={other} />)}
+      </div>
+    </section>
+  )}
+  <EventsCta />
+</Base>

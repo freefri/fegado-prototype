@@ -3,7 +3,7 @@ import { file, glob } from "astro/loaders";
 import { z } from "astro/zod";
 import { documentCategoryKeys } from "@/data/documents";
 import { disciplines, newsCategories } from "@/data/taxonomy";
-import { clubLogos, images, type ImageId } from "@/data/images";
+import { clubLogos, eventPosters, images, type ImageId } from "@/data/images";
 
 const imageId = z
   .string()
@@ -37,10 +37,22 @@ const events = defineCollection({
     club: z.string(),
     discipline: z.enum(disciplines),
     official: z.boolean(),
-    poster: imageId,
-    heroImage: imageId,
-    href: z.url().default("https://fegado.es/events/"),
+    legacyId: z.string().optional(),
+    legacyUrl: z.url().optional(),
+    /** Where the poster came from on the intranet of fegado.es. */
+    posterUrl: z.url().optional(),
+    /** The poster as stored in src/assets/images/events/. */
+    posterFile: z
+      .string()
+      .refine((name) => name in eventPosters, { message: "No such file in src/assets/images/events/" })
+      .optional(),
+    /** A poster from the image registry, which wins over `posterFile` (the design's own posters). */
+    poster: imageId.optional(),
+    /** Photo for the start page carousel; only events with one appear there. */
+    heroImage: imageId.optional(),
     registrationDeadline: z.coerce.date().optional(),
+    registrationUrl: z.url().optional(),
+    attachments: z.array(z.object({ title: z.string(), url: z.url() })).default([]),
     /** Prototype only: the design's events are past, so their countdown runs from page load. */
     demoSecondsLeft: z.number().int().positive().optional(),
   }),

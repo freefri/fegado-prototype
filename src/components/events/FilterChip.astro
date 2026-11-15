@@ -1,0 +1,40 @@
+---
+// A filter of the events page: a chip that opens a list of checkboxes, or any other control.
+import { ChevronDown } from "@lucide/astro";
+
+interface Props {
+  label: string;
+  name: string;
+  options?: { value: string; label: string }[];
+}
+
+const { label, name, options } = Astro.props;
+---
+
+<div class="filter-chip relative" data-filter={name}>
+  <button
+    type="button"
+    class="peer flex h-[28px] cursor-pointer items-center gap-2 rounded-full border border-chip-ink bg-white px-3.5 text-[13px] text-chip-ink data-[active=true]:bg-chip-ink data-[active=true]:text-white"
+    aria-expanded="false"
+    data-label={label}
+  >
+    <span class="filter-chip-label">{label}</span>
+    <ChevronDown class="size-3.5" />
+  </button>
+  <div class="absolute top-full left-0 z-10 mt-1 hidden max-h-[320px] min-w-[240px] overflow-y-auto rounded-md bg-white p-1.5 shadow-[0_8px_24px_rgb(19_68_130/0.16)] peer-aria-expanded:block">
+    {options ? (
+      <ul class="m-0 list-none p-0">
+        {options.map((option) => (
+          <li>
+            <label class="flex cursor-pointer items-center gap-2.5 rounded px-2.5 py-2 text-sm hover:bg-chip">
+              <input type="checkbox" class="size-4 accent-blue-to" name={name} value={option.value} data-option-label={option.label} />
+              {option.label}
+            </label>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <slot />
+    )}
+  </div>
+</div>

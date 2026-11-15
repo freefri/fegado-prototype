@@ -1,0 +1,10 @@
+---
+import EventPage from "@/components/events/EventPage.astro";
+import { eventSlug, getSortedEvents, type EventEntry } from "@/lib/events";
+
+export async function getStaticPaths() {
+  return (await getSortedEvents()).map((event) => ({ params: { slug: eventSlug(event) }, props: { event } }));
+}
+---
+
+<EventPage event={(Astro.props as { event: EventEntry }).event} />

@@ -2,7 +2,7 @@
 import { Image } from "astro:assets";
 import { ArrowUpRight, ChevronLeft, ChevronRight } from "@lucide/astro";
 import { buttonVariants } from "@/components/ui/button";
-import { getHeroEvents, secondsLeft } from "@/lib/events";
+import { eventPath, getHeroEvents, secondsLeft } from "@/lib/events";
 import { images } from "@/data/images";
 import { getLangFromUrl, useTranslations } from "@/i18n/utils";
 
@@ -42,7 +42,7 @@ function split(total: number) {
         aria-label={`${t("hero.slide")} ${index + 1} / ${events.length}`}
       >
         <Image
-          src={images[event.data.heroImage].src}
+          src={images[event.data.heroImage!].src}
           alt=""
           widths={[800, 1440, 1600]}
           sizes="(max-width: 1440px) 100vw, 1410px"
@@ -67,7 +67,7 @@ function split(total: number) {
               </div>
             ))}
           </div>
-          <a class={buttonVariants()} href={event.data.href}>{t("events.visit")}<ArrowUpRight /></a>
+          <a class={buttonVariants()} href={eventPath(lang, event)}>{t("events.visit")}<ArrowUpRight /></a>
         </div>
       </article>
     ))}

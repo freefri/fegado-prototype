@@ -1,26 +1,27 @@
 ---
-import { Image } from "astro:assets";
 import { ArrowUpRight, Trophy, User } from "@lucide/astro";
+import EventPoster from "@/components/events/EventPoster.astro";
 import { badgeVariants } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
-import { images } from "@/data/images";
 import { getLangFromUrl, useTranslations } from "@/i18n/utils";
-import type { EventEntry } from "@/lib/events";
+import { eventPath, type EventEntry } from "@/lib/events";
 import { posterDate } from "@/lib/format";
 
 interface Props {
   event: EventEntry;
+  /** Extra attributes for the card, such as the data the events page filters on. */
+  attrs?: Record<string, string>;
 }
 
-const { data: event } = Astro.props.event;
+const { event: entry, attrs } = Astro.props;
+const { data: event } = entry;
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-const poster = images[event.poster];
 ---
 
-<article class="flex snap-start flex-col rounded-[14px] border border-blue-border bg-white p-[21px] transition-shadow hover:shadow-[0_12px_32px_rgb(19_68_130/0.14)]">
+<article class="flex snap-start flex-col rounded-[14px] border border-blue-border bg-white p-[21px] transition-shadow hover:shadow-[0_12px_32px_rgb(19_68_130/0.14)]" {...attrs}>
   <div class="relative mb-[22px] aspect-[356/430] overflow-hidden rounded-xl">
-    <Image src={poster.src} alt={poster.alt[lang]} widths={[360, 720]} sizes="360px" class="size-full object-cover" />
+    <EventPoster event={entry} widths={[360, 720]} sizes="360px" class="size-full object-cover" />
     <span class="absolute top-0 left-0 rounded-br-[14px] bg-white px-[18px] py-2 text-[13px]">{posterDate(event.date, lang)}</span>
     <span class={badgeVariants({ className: "absolute top-3 right-3" })}>{t(`discipline.${event.discipline}`)}</span>
   </div>
@@ -28,6 +29,6 @@ const poster = images[event.poster];
     <span class="inline-flex items-center gap-1.5"><User class="size-3" />{event.club}</span>
     <span class="inline-flex items-center gap-1.5"><Trophy class="size-3" />{event.official ? t("events.official") : t("events.unofficial")}</span>
   </div>
-  <h3 class="mb-[26px] text-2xl leading-[1.25]">{event.title}</h3>
-  <a class={buttonVariants({ className: "mt-auto self-start" })} href={event.href}>{t("events.visit")}<ArrowUpRight /></a>
+  <h3 class="mb-[26px] line-clamp-2 text-2xl leading-[1.25]">{event.title}</h3>
+  <a class={buttonVariants({ className: "mt-auto self-start" })} href={eventPath(lang, entry)}>{t("events.visit")}<ArrowUpRight /></a>
 </article>

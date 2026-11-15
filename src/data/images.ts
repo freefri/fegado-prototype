@@ -309,9 +309,19 @@ export type ImageId = keyof typeof images;
  * and belongs to that club. Downloaded from the club list of fegado.es at 400 px.
  */
 const clubLogoFiles = import.meta.glob<ImageMetadata>("../assets/images/clubs/*", { eager: true, import: "default" });
-export const clubLogos: Record<string, ImageMetadata> = Object.fromEntries(
-  Object.entries(clubLogoFiles).map(([path, src]) => [path.slice(path.lastIndexOf("/") + 1), src]),
-);
+export const clubLogos = byFileName(clubLogoFiles);
+
+/**
+ * Event posters, registered as a folder: each file is named after an event in
+ * `src/content/events/` and belongs to its organising club. `import-events.mjs` downloads them
+ * from the intranet of fegado.es at 900 px.
+ */
+const eventPosterFiles = import.meta.glob<ImageMetadata>("../assets/images/events/*", { eager: true, import: "default" });
+export const eventPosters = byFileName(eventPosterFiles);
+
+function byFileName(files: Record<string, ImageMetadata>): Record<string, ImageMetadata> {
+  return Object.fromEntries(Object.entries(files).map(([path, src]) => [path.slice(path.lastIndexOf("/") + 1), src]));
+}
 
 /** Files served as they are from `public/`, outside Astro's image pipeline. */
 export const publicImages = {

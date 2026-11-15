@@ -5,6 +5,7 @@ import type { Lang } from "./ui";
  * translates a URL by finding its longest matching route here, so a page only has to be added once.
  */
 export const routes = {
+  events: { gl: "eventos", es: "eventos" },
   news: { gl: "novas", es: "noticias" },
   about: { gl: "sobre-fegado", es: "sobre-fegado" },
   "who-we-are": { gl: "sobre-fegado/quen-somos", es: "sobre-fegado/quienes-somos" },

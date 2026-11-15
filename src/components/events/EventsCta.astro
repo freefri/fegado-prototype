@@ -1,0 +1,16 @@
+---
+import { ArrowUpRight } from "@lucide/astro";
+import { buttonVariants } from "@/components/ui/button";
+import { getLangFromUrl, localizePath, useTranslations } from "@/i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<div class="mx-auto mb-2 max-w-[1440px] px-2 md:mb-[15px] md:px-[15px]">
+  <section class="rounded-lg bg-chip px-5 py-14 text-center md:py-[75px]">
+    <h2 class="mb-3 text-[30px] md:text-4xl">{t("eventsCta.title")}</h2>
+    <p class="mb-6 text-[15px] font-light text-ink-soft">{t("eventsCta.text")}</p>
+    <a class={buttonVariants()} href={localizePath("eventos.ics", "gl")} download>{t("eventsCta.button")}<ArrowUpRight /></a>
+  </section>
+</div>

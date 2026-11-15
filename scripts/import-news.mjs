@@ -7,15 +7,11 @@
 //
 // Downloaded pages are cached in .cache/import/, so re-running only fetches what is new. The live
 // site is the source until a database export is available; only `fetchPage` would change then.
-import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
-import TurndownService from "turndown";
+import { SITE, clean, decode, divContents, fetchPage, filesByLegacyId, keptLines, root, slugify, toMarkdown, yaml } from "./lib/legacy-site.mjs";
 
-const SITE = "https://fegado.es";
-const root = new URL("..", import.meta.url).pathname;
-const cacheDir = join(root, ".cache/import");
 const outDir = join(root, "src/content/news");
-const PAUSE_MS = 400;
 
 const args = process.argv.slice(2);
 const all = args.includes("--all");
@@ -26,32 +22,6 @@ if (!all && !since && !categorize) {
   console.error("Usage: node scripts/import-news.mjs (--since <year> | --all) [--force] | --categorize");
   process.exit(1);
 }
-
-const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
-async function fetchPage(path) {
-  const cacheFile = join(cacheDir, `${path.replace(/[^a-z0-9]+/gi, "_")}.html`);
-  if (existsSync(cacheFile)) return readFileSync(cacheFile, "utf8");
-  await sleep(PAUSE_MS);
-  const response = await fetch(SITE + path, { headers: { "User-Agent": "fegado-prototype news importer" } });
-  if (!response.ok) throw new Error(`${response.status} ${SITE}${path}`);
-  const html = await response.text();
-  mkdirSync(cacheDir, { recursive: true });
-  writeFileSync(cacheFile, html);
-  return html;
-}
-
-const decode = (text) =>
-  text
-    .replace(/&nbsp;/g, " ")
-    .replace(/&amp;/g, "&")
-    .replace(/&quot;/g, '"')
-    .replace(/&#0?39;|&apos;/g, "'")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&#(\d+);/g, (_, code) => String.fromCodePoint(Number(code)));
-
-const clean = (text) => decode(text.replace(/<[^>]+>/g, "")).replace(/\s+/g, " ").trim();
 
 /** List rows: id, title, date and author. The list page is newest first. */
 function parseList(html) {
@@ -68,19 +38,6 @@ function parseList(html) {
     .filter((item) => item.id && item.date);
 }
 
-/** Inner HTML of the element opened at `start`, following nested divs to its own closing tag. */
-function divContents(html, start) {
-  const open = html.indexOf(">", start) + 1;
-  const tags = /<div\b|<\/div>/g;
-  tags.lastIndex = open;
-  let depth = 1;
-  for (let match; (match = tags.exec(html)); ) {
-    depth += match[0] === "</div>" ? -1 : 1;
-    if (depth === 0) return html.slice(open, match.index);
-  }
-  return html.slice(open);
-}
-
 function parseDetail(html) {
   const body = divContents(html, html.indexOf('<div class="text">')).replace(/<!--[\s\S]*?-->/g, "");
   const attachmentsBlock = html.match(/<div class="attachments">([\s\S]*?)<\/ul>/)?.[1] ?? "";
@@ -92,20 +49,6 @@ function parseDetail(html) {
   const broken = attachments.filter((a) => !/^https?:\/\//.test(a.url));
   for (const a of broken) console.warn(`\n  skipped attachment without a link: "${a.title}" (${a.url})`);
   return { body, attachments: attachments.filter((a) => !broken.includes(a)) };
-}
-
-const turndown = new TurndownService({ headingStyle: "atx", bulletListMarker: "-", emDelimiter: "*" });
-turndown.addRule("absoluteLinks", {
-  filter: (node) => node.nodeName === "A" && node.getAttribute("href")?.startsWith("/"),
-  replacement: (content, node) => `[${content}](${SITE}${node.getAttribute("href")})`,
-});
-
-function toMarkdown(html) {
-  return turndown
-    .turndown(html)
-    .replace(/ /g, " ")
-    .replace(/\n{3,}/g, "\n\n")
-    .trim();
 }
 
 // Galician and Spanish share most words; these are frequent ones that differ.
@@ -160,51 +103,16 @@ function categorizeExisting() {
   console.log(`${changed} news categorized`);
 }
 
-function slugify(text) {
-  const slug = text
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[̀-ͯ]/g, "")
-    .replace(/ñ/g, "n")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-|-$/g, "")
-    .slice(0, 70)
-    .replace(/-[^-]*$/, (tail) => (tail.length > 1 ? tail : ""))
-    .replace(/-$/, "");
-  return /^\d*$/.test(slug) ? `nova-${slug}` : slug;
-}
-
-const yaml = (value) => JSON.stringify(value);
-
 // Fields the live site does not have and that are set by hand; a re-import keeps them, and keeps a
 // corrected `lang` instead of guessing again.
 const EDITED_FIELDS = ["image", "imagePosition", "categories"];
 
 function editedFields(file) {
   const frontmatter = readFileSync(file, "utf8").split(/^---$/m)[1] ?? "";
-  const lines = frontmatter
-    .split("\n")
-    .filter((line, i, all) => {
-      const key = line.match(/^(\w+):/)?.[1];
-      if (key) return EDITED_FIELDS.includes(key);
-      // Indented continuation lines belong to the last top-level key above them.
-      const owner = all.slice(0, i).reverse().find((l) => /^\w+:/.test(l))?.match(/^(\w+):/)?.[1];
-      return owner !== undefined && EDITED_FIELDS.includes(owner) && line.trim() !== "";
-    });
-  return { lang: frontmatter.match(/^lang: (\w+)$/m)?.[1], lines };
+  return { lang: frontmatter.match(/^lang: (\w+)$/m)?.[1], lines: keptLines(file, EDITED_FIELDS) };
 }
 
-function existingIds() {
-  if (!existsSync(outDir)) return new Map();
-  const ids = new Map();
-  for (const year of readdirSync(outDir)) {
-    for (const file of readdirSync(join(outDir, year))) {
-      const id = readFileSync(join(outDir, year, file), "utf8").match(/^legacyId: "([^"]+)"/m)?.[1];
-      if (id) ids.set(id, join(outDir, year, file));
-    }
-  }
-  return ids;
-}
+const existingIds = () => filesByLegacyId(outDir);
 
 async function main() {
   const known = existingIds();

@@ -4,16 +4,15 @@ import Logo from "./Logo.astro";
 import SocialIcon from "./SocialIcon.astro";
 import { buttonVariants } from "@/components/ui/button";
 import { contact, links } from "@/data/site";
-import { getLangFromUrl, localizePath, routePath, useTranslations } from "@/i18n/utils";
+import { getLangFromUrl, routePath, useTranslations } from "@/i18n/utils";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-const home = localizePath("/", lang);
 
 const columns = [
   [
     { label: t("nav.about"), href: routePath("who-we-are", lang), hasMenu: true },
-    { label: t("nav.events"), href: `${home}#eventos` },
+    { label: t("nav.events"), href: routePath("events", lang) },
     { label: t("nav.news"), href: routePath("news", lang) },
     { label: t("nav.clubs"), href: routePath("clubs", lang) },
   ],

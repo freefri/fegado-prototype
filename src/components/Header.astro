@@ -5,13 +5,12 @@ import LanguageSwitch from "./LanguageSwitch.astro";
 import { buttonVariants } from "@/components/ui/button";
 import { links } from "@/data/site";
 import { aboutPages, transparencyPages, type RouteKey } from "@/i18n/routes";
-import { getLangFromUrl, isRouteActive, localizePath, routePath, useTranslations } from "@/i18n/utils";
+import { getLangFromUrl, isRouteActive, routePath, useTranslations } from "@/i18n/utils";
 import type { UiKey } from "@/i18n/ui";
 import { cn } from "@/lib/utils";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-const home = localizePath("/", lang);
 
 interface Link {
   label: string;
@@ -26,7 +25,7 @@ const transparencyLabels = { board: "nav.board", documents: "nav.documents", ide
 
 const nav: NavItem[] = [
   { label: t("nav.about"), active: isRouteActive(Astro.url, "about"), children: aboutPages.map((key) => page(key, aboutLabels[key])) },
-  { label: t("nav.events"), href: `${home}#eventos` },
+  page("events", "nav.events"),
   page("news", "nav.news"),
   page("clubs", "nav.clubs"),
   {

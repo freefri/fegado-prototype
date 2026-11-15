@@ -6,9 +6,10 @@ import { ArrowLeft, ArrowUpRight, Calendar, FileText, Languages, Mail, User } fr
 import RelatedItem from "./RelatedItem.astro";
 import SocialIcon from "@/components/SocialIcon.astro";
 import { badgeVariants } from "@/components/ui/badge";
-import { images } from "@/data/images";
+import { eventPosters, images } from "@/data/images";
 import Base from "@/layouts/Base.astro";
 import { getLangFromUrl, useTranslations } from "@/i18n/utils";
+import { eventPath } from "@/lib/events";
 import { metaDate } from "@/lib/format";
 import { categoryLabel, newsItemPath, newsListPath, type NewsEntry } from "@/lib/news";
 
@@ -116,8 +117,8 @@ const events = (await getCollection("events"))
           <section class="mb-14">
             <h2 class="mb-6 text-[28px]">{t("newsItem.relatedEvents")}</h2>
             <ul class="grid list-none gap-5 p-0">
-              {events.map(({ data: event }) => (
-                <RelatedItem href={event.href} title={event.title} date={event.date} author={event.club} image={event.poster} tags={[t(`discipline.${event.discipline}`)]} external />
+              {events.map((entry) => (
+                <RelatedItem href={eventPath(lang, entry)} title={entry.data.title} date={entry.data.date} author={entry.data.club} image={entry.data.poster} imageSrc={entry.data.posterFile ? eventPosters[entry.data.posterFile] : undefined} tags={[t(`discipline.${entry.data.discipline}`)]} />
               ))}
             </ul>
           </section>

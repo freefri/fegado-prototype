@@ -1,0 +1,31 @@
+---
+// An event's poster: the design's own from the registry, else the imported one, else the logo.
+import { Image } from "astro:assets";
+import { eventPosters, images } from "@/data/images";
+import { getLangFromUrl, useTranslations } from "@/i18n/utils";
+import type { EventEntry } from "@/lib/events";
+
+interface Props {
+  event: EventEntry;
+  widths: number[];
+  sizes: string;
+  class?: string;
+  loading?: "eager" | "lazy";
+}
+
+const { event, widths, sizes, class: className, loading = "lazy" } = Astro.props;
+const { data } = event;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const alt = t("events.posterOf", { title: data.title });
+---
+
+{data.poster ? (
+  <Image src={images[data.poster].src} alt={images[data.poster].alt[lang]} widths={widths} sizes={sizes} class={className} loading={loading} />
+) : data.posterFile ? (
+  <Image src={eventPosters[data.posterFile]} alt={alt} widths={widths} sizes={sizes} class={className} loading={loading} />
+) : (
+  <div class:list={["grid place-items-center bg-chip", className]}>
+    <Image src={images.logo.src} alt="" class="h-auto w-1/2" />
+  </div>
+)}
