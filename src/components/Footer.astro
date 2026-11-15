@@ -38,7 +38,7 @@ const socialNames = { instagram: "Instagram", facebook: "Facebook", x: "X", yout
   <div class="bg-navy-gradient rounded-lg px-5 pt-10 pb-6 text-white md:px-10 md:pt-14 md:pb-[30px] xl:px-[75px]">
     <div class="flex items-center justify-between gap-4 border-b border-navy-line pb-5">
       <Logo class="w-[120px] md:w-[150px]" />
-      <a class={buttonVariants()} href={links.intranet}><User />{t("nav.personalArea")}</a>
+      <a class={buttonVariants()} href={routePath("account", lang)}><User />{t("nav.personalArea")}</a>
     </div>
 
     <div class="grid gap-8 border-b border-navy-line pt-[26px] pb-5 md:grid-cols-2 xl:grid-cols-[274px_1fr_186px_186px] xl:gap-x-[38px] xl:gap-y-0">

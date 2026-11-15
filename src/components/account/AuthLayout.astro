@@ -1,0 +1,36 @@
+---
+// The sign-in pages of the design: a photo on one side, the form centred on the other. They have no
+// header, so the language switch sits beside the form.
+import { Image } from "astro:assets";
+import { ArrowLeft } from "@lucide/astro";
+import LanguageSwitch from "@/components/LanguageSwitch.astro";
+import { images } from "@/data/images";
+import Base from "@/layouts/Base.astro";
+import { getLangFromUrl, localizePath, useTranslations } from "@/i18n/utils";
+
+interface Props {
+  title: string;
+}
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+---
+
+<Base title={`${Astro.props.title} · FEGADO`} bare>
+  <div class="grid min-h-[calc(100dvh-36px)] gap-2 p-2 md:gap-[15px] md:p-[15px] lg:grid-cols-2">
+    <div class="relative h-[200px] overflow-hidden rounded-lg lg:h-auto">
+      <Image src={images.areaPersoal.src} alt={images.areaPersoal.alt[lang]} widths={[700, 1400]} sizes="(max-width: 1024px) 100vw, 50vw" class="absolute inset-0 size-full object-cover object-[55%_50%]" loading="eager" />
+      <a href={localizePath("/", lang)} class="absolute top-4 left-4 inline-flex items-center gap-1.5 rounded-full bg-white px-4 py-2 text-[13px] text-chip-ink no-underline shadow-sm hover:bg-chip">
+        <ArrowLeft class="size-3.5" />{t("account.backToSite")}
+      </a>
+    </div>
+    <div class="relative grid place-items-center px-4 py-14 md:py-16">
+      <LanguageSwitch class="absolute top-3 right-3" />
+      <div class="w-full max-w-[520px]">
+        <img src={`${base}/favicon.svg`} alt="FEGADO" width="48" height="48" class="mx-auto mb-6" />
+        <slot />
+      </div>
+    </div>
+  </div>
+</Base>

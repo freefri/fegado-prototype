@@ -1,0 +1,251 @@
+---
+import { getCollection } from "astro:content";
+import { Upload } from "@lucide/astro";
+import AuthLayout from "./AuthLayout.astro";
+import PasswordInput from "./PasswordInput.astro";
+import { input, label, notice, select } from "./fields";
+import { buttonVariants } from "@/components/ui/button";
+import { links } from "@/data/site";
+import { getLangFromUrl, routePath, useTranslations } from "@/i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const clubs = (await getCollection("clubs")).map(({ data }) => data.name).sort((a, b) => a.localeCompare(b, lang));
+const months = t("calendar.months").split(",");
+const thisYear = new Date().getFullYear();
+
+const steps = [t("account.stepAccess"), t("account.stepPersonal"), t("account.stepSport"), t("account.stepConfirm")];
+const back = buttonVariants({ variant: "dark" });
+const next = buttonVariants();
+---
+
+<AuthLayout title={t("account.registerTitle")}>
+  <form class="register-form" novalidate>
+    <ol class="mb-14 grid list-none grid-cols-4 gap-1.5 p-0" aria-label={t("account.steps")}>
+      {steps.map((step, index) => (
+        <li class="register-progress h-1 rounded-full bg-chip data-[done=true]:bg-chip-ink" data-done={String(index === 0)}>
+          <span class="sr-only">{step}</span>
+        </li>
+      ))}
+    </ol>
+
+    <fieldset class="register-step grid gap-5 sm:grid-cols-2" data-step="0">
+      <legend class="mb-2 w-full text-center">
+        <span class="block font-heading text-[28px] font-bold">{steps[0]}</span>
+        <span class="mt-2 block text-[13px] font-light text-ink-soft">{t("account.stepAccessIntro")}</span>
+      </legend>
+      <div>
+        <label class={label} for="reg-document">{t("account.documentNumber")}*</label>
+        <div class="flex">
+          <select class={`${select} w-[86px] rounded-r-none border-r-0`} name="documentType" aria-label={t("account.documentType")}>
+            <option>DNI</option><option>NIE</option><option>{t("account.passport")}</option>
+          </select>
+          <input class={`${input} rounded-l-none`} id="reg-document" name="document" placeholder="00000000A" required />
+        </div>
+      </div>
+      <div>
+        <label class={label} for="reg-name">{t("account.name")}*</label>
+        <input class={input} id="reg-name" name="name" autocomplete="given-name" placeholder={t("account.name")} required />
+      </div>
+      <div>
+        <label class={label} for="reg-surname1">{t("account.surname1")}*</label>
+        <input class={input} id="reg-surname1" name="surname1" autocomplete="family-name" placeholder={t("account.surname")} required />
+      </div>
+      <div>
+        <label class={label} for="reg-surname2">{t("account.surname2")}*</label>
+        <input class={input} id="reg-surname2" name="surname2" placeholder={t("account.surname")} required />
+      </div>
+      <div>
+        <label class={label} for="reg-password">{t("account.password")}*</label>
+        <PasswordInput id="reg-password" name="password" autocomplete="new-password" required />
+      </div>
+      <div>
+        <label class={label} for="reg-password2">{t("account.repeatPassword")}*</label>
+        <PasswordInput id="reg-password2" name="password2" autocomplete="new-password" required />
+      </div>
+      <div class="flex flex-wrap justify-end gap-3 sm:col-span-2">
+        <a class={back} href={routePath("account", lang)}>{t("account.backToLogin")}</a>
+        <button type="button" class={`${next} register-next`}>{t("account.continue")}</button>
+      </div>
+    </fieldset>
+
+    <fieldset class="register-step hidden gap-5 sm:grid-cols-2" data-step="1">
+      <legend class="mb-2 w-full text-center">
+        <span class="block font-heading text-[28px] font-bold">{steps[1]}</span>
+        <span class="mt-2 block text-[13px] font-light text-ink-soft">{t("account.stepPersonalIntro")}</span>
+      </legend>
+      <div class="flex items-center gap-3 rounded-[14px] border border-chip-ink/70 p-3 sm:col-span-2">
+        <span class="grid size-11 shrink-0 place-items-center rounded-full bg-chip font-heading text-chip-ink" aria-hidden="true">?</span>
+        <div class="min-w-0 flex-1 text-[13px]">
+          <p class="font-semibold">{t("account.photo")}</p>
+          <p class="register-photo-name truncate text-muted">{t("account.noFile")}</p>
+        </div>
+        <label class={buttonVariants({ variant: "dark", className: "cursor-pointer" })}>
+          <Upload />{t("account.addPhoto")}
+          <input class="sr-only" type="file" name="photo" accept="image/*" />
+        </label>
+      </div>
+      <div class="sm:col-span-2">
+        <label class={label} for="reg-email">{t("account.email")}*</label>
+        <input class={input} id="reg-email" name="email" type="email" autocomplete="email" placeholder="mail@mail.com" required />
+      </div>
+      <div>
+        <label class={label} for="reg-phone">{t("account.phone")}</label>
+        <input class={input} id="reg-phone" name="phone" type="tel" autocomplete="tel" placeholder="000000000" />
+      </div>
+      <div>
+        <label class={label} for="reg-sex">{t("account.sex")}</label>
+        <select class={select} id="reg-sex" name="sex">
+          <option value="">{t("account.sexChoose")}</option>
+          <option>{t("account.female")}</option>
+          <option>{t("account.male")}</option>
+        </select>
+      </div>
+      <div class="sm:col-span-2">
+        <span class={label} id="reg-birth">{t("account.birthDate")}</span>
+        <div class="grid grid-cols-3 gap-3" role="group" aria-labelledby="reg-birth">
+          <select class={select} name="birthDay" aria-label={t("account.day")}>
+            <option value="">{t("account.day")}</option>
+            {Array.from({ length: 31 }, (_, i) => <option>{i + 1}</option>)}
+          </select>
+          <select class={select} name="birthMonth" aria-label={t("account.month")}>
+            <option value="">{t("account.month")}</option>
+            {months.map((month, i) => <option value={i + 1}>{month}</option>)}
+          </select>
+          <select class={select} name="birthYear" aria-label={t("account.year")}>
+            <option value="">{t("account.year")}</option>
+            {Array.from({ length: 95 }, (_, i) => <option>{thisYear - 4 - i}</option>)}
+          </select>
+        </div>
+      </div>
+      <div class="flex flex-wrap justify-end gap-3 sm:col-span-2">
+        <button type="button" class={`${back} register-back`}>{t("account.back")}</button>
+        <button type="button" class={`${next} register-next`}>{t("account.continue")}</button>
+      </div>
+    </fieldset>
+
+    <fieldset class="register-step hidden gap-5 sm:grid-cols-2" data-step="2">
+      <legend class="mb-2 w-full text-center">
+        <span class="block font-heading text-[28px] font-bold">{steps[2]}</span>
+        <span class="mx-auto mt-2 block max-w-[400px] text-[13px] font-light text-ink-soft">{t("account.stepSportIntro")}</span>
+      </legend>
+      <div>
+        <label class={label} for="reg-licence">{t("account.licence")}</label>
+        <input class={input} id="reg-licence" name="licence" />
+      </div>
+      <div>
+        <label class={label} for="reg-bib">{t("account.bib")}</label>
+        <input class={input} id="reg-bib" name="bib" />
+      </div>
+      <div>
+        <label class={label} for="reg-sportident">{t("account.sportident")}</label>
+        <input class={input} id="reg-sportident" name="sportident" inputmode="numeric" />
+      </div>
+      <div>
+        <label class={label} for="reg-club">{t("account.club")}</label>
+        <select class={select} id="reg-club" name="club">
+          <option value="">{t("account.clubChoose")}</option>
+          {clubs.map((club) => <option>{club}</option>)}
+        </select>
+      </div>
+      <div class="flex flex-wrap justify-end gap-3 sm:col-span-2">
+        <button type="button" class={`${back} register-back`}>{t("account.back")}</button>
+        <button type="button" class={`${next} register-next`}>{t("account.continue")}</button>
+      </div>
+    </fieldset>
+
+    <fieldset class="register-step hidden gap-5" data-step="3">
+      <legend class="mb-2 w-full text-center">
+        <span class="block font-heading text-[28px] font-bold">{steps[3]}</span>
+        <span class="mt-2 block text-[13px] font-light text-ink-soft">{t("account.stepConfirmIntro")}</span>
+      </legend>
+      <dl class="register-summary m-0 grid gap-1.5 rounded-[14px] border border-chip-ink/70 p-5 text-[13px] [&_dt]:font-semibold [&_dd]:m-0 [&_dd]:text-ink-soft [&>div]:flex [&>div]:gap-1.5">
+        <div><dt>{t("account.documentNumber")}:</dt><dd data-summary="document"></dd></div>
+        <div><dt>{t("account.fullName")}:</dt><dd data-summary="fullName"></dd></div>
+        <div><dt>{t("account.email")}:</dt><dd data-summary="email"></dd></div>
+        <div><dt>{t("account.phone")}:</dt><dd data-summary="phone"></dd></div>
+        <div><dt>{t("account.sex")}:</dt><dd data-summary="sex"></dd></div>
+        <div><dt>{t("account.birthDate")}:</dt><dd data-summary="birth"></dd></div>
+        <div><dt>{t("account.licence")}:</dt><dd data-summary="licence"></dd></div>
+        <div><dt>{t("account.club")}:</dt><dd data-summary="club"></dd></div>
+      </dl>
+      <label class="flex items-center gap-2.5 rounded-[14px] border border-chip-ink/70 px-4 py-3 text-[13px]">
+        <input class="size-4 accent-blue-to" type="checkbox" name="terms" required />
+        <span>{t("account.termsBefore")} <a class="text-chip-ink underline" href={links.legal}>{t("contact.termsLink")}</a> {t("account.termsAfter")}</span>
+      </label>
+      <div class="flex flex-wrap justify-end gap-3">
+        <button type="button" class={`${back} register-back`}>{t("account.back")}</button>
+        <button type="submit" class={next}>{t("account.finish")}</button>
+      </div>
+      <p class={`register-status hidden ${notice}`} role="status">{t("account.prototype")} <a class="underline" href={links.intranet}>intranet.fegado.es</a>.</p>
+    </fieldset>
+    <p class="register-mismatch mt-4 hidden text-center text-sm text-destructive" role="alert">{t("account.passwordMismatch")}</p>
+  </form>
+</AuthLayout>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>(".register-form");
+  if (form) {
+    const steps = [...form.querySelectorAll<HTMLFieldSetElement>(".register-step")];
+    const progress = [...form.querySelectorAll<HTMLElement>(".register-progress")];
+    const mismatch = form.querySelector<HTMLElement>(".register-mismatch")!;
+    let current = 0;
+
+    const show = (index: number) => {
+      current = index;
+      steps.forEach((step, i) => {
+        step.classList.toggle("hidden", i !== index);
+        step.classList.toggle("grid", i === index);
+      });
+      progress.forEach((bar, i) => (bar.dataset.done = String(i <= index)));
+      steps[index].querySelector<HTMLElement>("input, select")?.focus();
+    };
+
+    const valid = (step: HTMLFieldSetElement) => {
+      const fields = [...step.querySelectorAll<HTMLInputElement | HTMLSelectElement>("input, select")];
+      if (!fields.every((field) => field.reportValidity())) return false;
+      const passwords = step.querySelectorAll<HTMLInputElement>("input[autocomplete=new-password]");
+      const same = passwords.length < 2 || passwords[0].value === passwords[1].value;
+      mismatch.classList.toggle("hidden", same);
+      return same;
+    };
+
+    const value = (name: string) => (form.elements.namedItem(name) as HTMLInputElement | null)?.value.trim() ?? "";
+    const fillSummary = () => {
+      const month = form.querySelector<HTMLSelectElement>("select[name=birthMonth]")!;
+      const birth = [value("birthDay"), month.selectedIndex > 0 ? month.options[month.selectedIndex].text : "", value("birthYear")].filter(Boolean).join(" ");
+      const summary: Record<string, string> = {
+        document: `${value("documentType")} ${value("document")}`,
+        fullName: [value("name"), value("surname1"), value("surname2")].join(" "),
+        email: value("email"),
+        phone: value("phone"),
+        sex: value("sex"),
+        birth,
+        licence: value("licence"),
+        club: value("club"),
+      };
+      for (const [key, text] of Object.entries(summary)) form.querySelector(`[data-summary=${key}]`)!.textContent = text || "—";
+    };
+
+    form.querySelectorAll(".register-next").forEach((button) =>
+      button.addEventListener("click", () => {
+        if (!valid(steps[current])) return;
+        if (current + 1 === steps.length - 1) fillSummary();
+        show(current + 1);
+      }),
+    );
+    form.querySelectorAll(".register-back").forEach((button) => button.addEventListener("click", () => show(current - 1)));
+
+    const photo = form.querySelector<HTMLInputElement>("input[name=photo]")!;
+    photo.addEventListener("change", () => {
+      const name = photo.files?.[0]?.name;
+      if (name) form.querySelector(".register-photo-name")!.textContent = name;
+    });
+
+    // There is no account service behind the prototype: finishing only explains that.
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      if (valid(steps[current])) form.querySelector(".register-status")?.classList.remove("hidden");
+    });
+  }
+</script>

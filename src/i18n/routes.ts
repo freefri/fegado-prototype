@@ -18,6 +18,9 @@ export const routes = {
   clubs: { gl: "clubs", es: "clubes" },
   contact: { gl: "contacto", es: "contacto" },
   faq: { gl: "preguntas-frecuentes", es: "preguntas-frecuentes" },
+  account: { gl: "area-persoal", es: "area-personal" },
+  recover: { gl: "area-persoal/recuperar-contrasinal", es: "area-personal/recuperar-contrasena" },
+  register: { gl: "area-persoal/rexistro", es: "area-personal/registro" },
 } as const satisfies Record<string, Record<Lang, string>>;
 
 export type RouteKey = keyof typeof routes;

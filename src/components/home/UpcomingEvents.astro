@@ -2,7 +2,6 @@
 import { ArrowUpRight } from "@lucide/astro";
 import EventCard from "./EventCard.astro";
 import { buttonVariants } from "@/components/ui/button";
-import { links } from "@/data/site";
 import { getUpcomingEvents } from "@/lib/events";
 import { getLangFromUrl, routePath, useTranslations } from "@/i18n/utils";
 
@@ -21,7 +20,7 @@ const upcomingEvents = await getUpcomingEvents();
     <p class="mb-[22px] leading-relaxed font-light text-muted">{t("events.intro2")}</p>
     <div class="mt-[18px] flex flex-wrap gap-[15px]">
       <a class={buttonVariants({ variant: "dark" })} href={routePath("events", lang)}>{t("events.more")}</a>
-      <a class={buttonVariants()} href={links.intranet}>{t("events.personalArea")}<ArrowUpRight /></a>
+      <a class={buttonVariants()} href={routePath("account", lang)}>{t("events.personalArea")}<ArrowUpRight /></a>
     </div>
   </div>
   <div

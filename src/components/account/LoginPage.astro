@@ -1,0 +1,38 @@
+---
+import AuthLayout from "./AuthLayout.astro";
+import PasswordInput from "./PasswordInput.astro";
+import { input, label, notice } from "./fields";
+import { buttonVariants } from "@/components/ui/button";
+import { links } from "@/data/site";
+import { getLangFromUrl, routePath, useTranslations } from "@/i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<AuthLayout title={t("account.loginTitle")}>
+  <h1 class="mb-8 text-center text-[28px] font-bold">{t("account.loginTitle")}</h1>
+  <form class="prototype-form mx-auto grid max-w-[300px] gap-5" novalidate>
+    <div>
+      <label class={label} for="login-document">{t("account.document")}</label>
+      <input class={input} id="login-document" name="document" autocomplete="username" placeholder="00000000A" required />
+    </div>
+    <div>
+      <div class="mb-2 flex items-baseline justify-between gap-2">
+        <label class="text-[13px] font-semibold" for="login-password">{t("account.password")}</label>
+        <a class="text-[13px] text-ink no-underline hover:underline" href={routePath("recover", lang)}>{t("account.forgot")}</a>
+      </div>
+      <PasswordInput id="login-password" name="password" autocomplete="current-password" required />
+    </div>
+    <button class={buttonVariants({ className: "w-full" })} type="submit">{t("account.signIn")}</button>
+    <p class={`prototype-status hidden ${notice}`} role="status">{t("account.prototype")} <a class="underline" href={links.intranet}>intranet.fegado.es</a>.</p>
+  </form>
+  <div class="mx-auto mt-14 grid max-w-[300px] gap-3 text-center text-[13px]">
+    <p>{t("account.notRegistered")}</p>
+    <a class={buttonVariants({ variant: "dark", className: "w-full" })} href={routePath("register", lang)}>{t("account.register")}</a>
+  </div>
+</AuthLayout>
+
+<script>
+  import "./prototype-form";
+</script>

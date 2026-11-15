@@ -1,0 +1,32 @@
+---
+import AuthLayout from "./AuthLayout.astro";
+import { input, label, notice } from "./fields";
+import { buttonVariants } from "@/components/ui/button";
+import { links } from "@/data/site";
+import { getLangFromUrl, routePath, useTranslations } from "@/i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<AuthLayout title={t("account.recoverTitle")}>
+  <h1 class="mb-3 text-center text-[28px] font-bold">{t("account.recoverTitle")}</h1>
+  <p class="mx-auto mb-8 max-w-[340px] text-center text-[13px] font-light text-ink-soft">{t("account.recoverIntro")}</p>
+  <form class="prototype-form mx-auto grid max-w-[300px] gap-5" novalidate>
+    <div>
+      <label class={label} for="recover-document">{t("account.document")}</label>
+      <input class={input} id="recover-document" name="document" autocomplete="username" placeholder="00000000A" required />
+    </div>
+    <div>
+      <label class={label} for="recover-email">{t("account.email")}</label>
+      <input class={input} id="recover-email" name="email" type="email" autocomplete="email" placeholder="mail@mail.com" required />
+    </div>
+    <button class={buttonVariants({ className: "w-full" })} type="submit">{t("account.recover")}</button>
+    <p class={`prototype-status hidden ${notice}`} role="status">{t("account.prototype")} <a class="underline" href={links.intranet}>intranet.fegado.es</a>.</p>
+  </form>
+  <p class="mt-6 text-center text-[13px]">{t("account.backToLoginBefore")} <a class="text-chip-ink underline" href={routePath("account", lang)}>{t("account.backToLoginLink")}</a></p>
+</AuthLayout>
+
+<script>
+  import "./prototype-form";
+</script>

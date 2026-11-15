@@ -3,7 +3,6 @@ import { Menu, User } from "@lucide/astro";
 import Logo from "./Logo.astro";
 import LanguageSwitch from "./LanguageSwitch.astro";
 import { buttonVariants } from "@/components/ui/button";
-import { links } from "@/data/site";
 import { aboutPages, transparencyPages, type RouteKey } from "@/i18n/routes";
 import { getLangFromUrl, isRouteActive, routePath, useTranslations } from "@/i18n/utils";
 import type { UiKey } from "@/i18n/ui";
@@ -75,7 +74,7 @@ const activeClass = "bg-chip text-chip-ink";
 
     <div class="ml-auto hidden items-center gap-5 lg:flex">
       <LanguageSwitch />
-      <a class={buttonVariants()} href={links.intranet}><User />{t("nav.personalArea")}</a>
+      <a class={buttonVariants()} href={routePath("account", lang)}><User />{t("nav.personalArea")}</a>
     </div>
 
     <button
