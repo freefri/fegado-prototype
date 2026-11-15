@@ -1,0 +1,18 @@
+---
+// One question of the FAQ, closed until the reader opens it. Used from MDX as <Question title="…">.
+import { ChevronDown } from "@lucide/astro";
+
+interface Props {
+  title: string;
+}
+---
+
+<details class="group rounded-[14px] border border-chip-ink/70 bg-white">
+  <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 text-lg font-normal text-chip-ink [&::-webkit-details-marker]:hidden">
+    {Astro.props.title}
+    <span class="grid size-[30px] shrink-0 place-items-center rounded-full border border-current transition-transform group-open:rotate-180">
+      <ChevronDown class="size-4" />
+    </span>
+  </summary>
+  <div class="prose-block px-5 pb-5"><slot /></div>
+</details>

@@ -1,0 +1,18 @@
+---
+// A button link inside page content: `to` names a page of the site, `href` an outside address.
+import { ArrowUpRight } from "@lucide/astro";
+import { buttonVariants } from "@/components/ui/button";
+import type { RouteKey } from "@/i18n/routes";
+import { getLangFromUrl, routePath } from "@/i18n/utils";
+
+type Props = { to: RouteKey; href?: never } | { href: string; to?: never };
+
+const lang = getLangFromUrl(Astro.url);
+const { to, href } = Astro.props;
+---
+
+<p class="!mt-5">
+  <a class={buttonVariants()} href={to ? routePath(to, lang) : href}>
+    <slot />{href && <ArrowUpRight />}
+  </a>
+</p>

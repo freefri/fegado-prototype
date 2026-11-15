@@ -1,0 +1,24 @@
+---
+// A row of two photos under a section (Modalidades). Used from MDX as <Gallery images={[…]} />.
+import { Image } from "astro:assets";
+import { images, type ImageId } from "@/data/images";
+import { getLangFromUrl } from "@/i18n/utils";
+
+interface Props {
+  images: ImageId[];
+}
+
+const lang = getLangFromUrl(Astro.url);
+---
+
+<div class="!mt-8 grid grid-cols-2 gap-[15px]">
+  {Astro.props.images.map((id) => (
+    <Image
+      src={images[id].src}
+      alt={images[id].alt[lang]}
+      widths={[400, 800, 1100]}
+      sizes="(max-width: 1146px) 50vw, 525px"
+      class="aspect-[525/298] w-full rounded-md object-cover"
+    />
+  ))}
+</div>

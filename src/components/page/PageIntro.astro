@@ -1,0 +1,32 @@
+---
+import { Image } from "astro:assets";
+import { images, type ImageId } from "@/data/images";
+import { getLangFromUrl } from "@/i18n/utils";
+import { cn } from "@/lib/utils";
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  intro: string;
+  image?: ImageId;
+}
+
+const { eyebrow, title, intro, image } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+---
+
+<header class={image ? "mb-16 md:mb-[75px]" : "mb-8"}>
+  {eyebrow && <p class="mb-1 text-xs tracking-[0.3em] text-ink-soft uppercase">{eyebrow}</p>}
+  <h1 class="mb-6 text-[34px] md:text-[40px]">{title}</h1>
+  {image && (
+    <Image
+      src={images[image].src}
+      alt={images[image].alt[lang]}
+      widths={[700, 1100, 2000]}
+      sizes="(max-width: 1146px) 100vw, 1066px"
+      class="mb-8 aspect-[1066/372] w-full rounded-md object-cover"
+      loading="eager"
+    />
+  )}
+  <p class={cn("text-ink-soft", image ? "max-w-[740px] font-heading text-xl leading-[1.4] font-light" : "max-w-[560px] text-[15px] leading-[1.55] font-light")}>{intro}</p>
+</header>

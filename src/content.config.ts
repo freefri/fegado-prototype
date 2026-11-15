@@ -1,7 +1,7 @@
 import { defineCollection } from "astro:content";
-import { glob } from "astro/loaders";
+import { file, glob } from "astro/loaders";
 import { z } from "astro/zod";
-import { images, type ImageId } from "@/data/images";
+import { clubLogos, images, type ImageId } from "@/data/images";
 
 const imageId = z
   .string()
@@ -46,4 +46,27 @@ const events = defineCollection({
   }),
 });
 
-export const collections = { news, events };
+/** Pages written as content, one file per language: `pages/<lang>/<route key>.mdx`. */
+const pages = defineCollection({
+  loader: glob({ pattern: "**/*.mdx", base: "./src/content/pages" }),
+  schema: z.object({
+    title: z.string(),
+    intro: z.string(),
+    image: imageId.optional(),
+  }),
+});
+
+const clubs = defineCollection({
+  loader: file("./src/content/clubs.yaml"),
+  schema: z.object({
+    name: z.string(),
+    province: z.string(),
+    web: z.url().optional(),
+    logo: z
+      .string()
+      .refine((name) => name in clubLogos, { message: "No such file in src/assets/images/clubs/" })
+      .optional(),
+  }),
+});
+
+export const collections = { news, events, pages, clubs };

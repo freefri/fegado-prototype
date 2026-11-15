@@ -1,0 +1,27 @@
+---
+// Photos beside a block of text (Quen somos, Fedérate). Used from MDX as <ImageStack images={[…]}>.
+import { Image } from "astro:assets";
+import { images, type ImageId } from "@/data/images";
+import { getLangFromUrl } from "@/i18n/utils";
+
+interface Props {
+  images: ImageId[];
+}
+
+const lang = getLangFromUrl(Astro.url);
+---
+
+<section class="not-first:mt-20 grid items-start gap-8 md:grid-cols-[minmax(0,355px)_1fr] md:gap-[75px] md:not-first:mt-[100px]">
+  <div class="grid gap-[15px] max-md:grid-cols-2">
+    {Astro.props.images.map((id) => (
+      <Image
+        src={images[id].src}
+        alt={images[id].alt[lang]}
+        widths={[360, 720]}
+        sizes="(max-width: 768px) 50vw, 355px"
+        class="aspect-[355/265] w-full rounded-md object-cover"
+      />
+    ))}
+  </div>
+  <div class="prose-block"><slot /></div>
+</section>

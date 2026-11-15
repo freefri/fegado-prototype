@@ -1,0 +1,131 @@
+# Clubs federated in FEGADO, from https://fegado.es/clubs/ (November 2026).
+# `logo` is a file in src/assets/images/clubs/; clubs without one show the FEGADO logo.
+
+- id: a-d-c-monte-breamo
+  name: "A.D.C. Monte Breamo"
+  province: A Coruña
+  logo: a-d-c-monte-breamo.jpg
+- id: adc-arnela
+  name: "ADC Arnela"
+  province: A Coruña
+  web: "http://adcarnela.wix.com/web"
+  logo: adc-arnela.png
+- id: aromon-pontevedra-montaneiros-a-roelo
+  name: "AROMON Pontevedra - Montañeiros A Roelo"
+  province: Pontevedra
+  web: "http://www.aromon.gal/"
+  logo: aromon-pontevedra-montaneiros-a-roelo.jpg
+- id: asociacion-deportiva-a-forna-budinoraid-orientacion
+  name: "Asociación Deportiva A FORNA _ budiñoraid-orientación"
+  province: Pontevedra
+  web: "http://bretema.uvigo.es/adaforna.htm"
+  logo: asociacion-deportiva-a-forna-budinoraid-orientacion.jpg
+- id: asociacion-deportiva-limiactiva
+  name: "Asociación Deportiva Limiactiva"
+  province: Ourense
+  web: "https://www.facebook.com/ADLIMIACTIVA"
+  logo: asociacion-deportiva-limiactiva.jpg
+- id: cdm-xesteiras
+  name: "CdM Xesteiras"
+  province: Pontevedra
+- id: club-brigantia-aventura
+  name: "Club Brigantia Aventura"
+  province: A Coruña
+  logo: club-brigantia-aventura.jpg
+- id: club-de-orientacion-compas
+  name: "CLUB DE ORIENTACIÓN COMPÁS"
+  province: Lugo
+  web: "https://compasorientacion.wixsite.com/orientacion-compas"
+  logo: club-de-orientacion-compas.jpg
+- id: club-fluvial-lugo
+  name: "CLUB FLUVIAL LUGO"
+  province: Lugo
+  web: "https://www.clubfluviallugo.com/"
+  logo: club-fluvial-lugo.jpg
+- id: club-gallaecia-raid
+  name: "CLUB GALLAECIA RAID"
+  province: A Coruña
+  web: "http://www.gallaeciaraid.org/"
+  logo: club-gallaecia-raid.jpg
+- id: club-montana-ferrol
+  name: "Club Montaña Ferrol"
+  province: A Coruña
+  web: "http://www.clubmontanaferrol.gal"
+  logo: club-montana-ferrol.jpg
+- id: club-o-pasatempo
+  name: "Club O Pasatempo"
+  province: A Coruña
+  logo: club-o-pasatempo.jpg
+- id: club-orientacion-coruna
+  name: "Club Orientación Coruña"
+  province: A Coruña
+  web: "http://cococoruna.wix.com/coco"
+  logo: club-orientacion-coruna.jpg
+- id: club-orientacion-liceo-de-a-coruna
+  name: "Club Orientación Liceo de A Coruña"
+  province: A Coruña
+  logo: club-orientacion-liceo-de-a-coruna.jpg
+- id: club-pena-trevinca-barco
+  name: "Club Peña Trevinca Barco"
+  province: Ourense
+  web: "https://www.clubtrevincabarco.org"
+  logo: club-pena-trevinca-barco.png
+- id: club-raza-palleira
+  name: "CLUB RAZA PALLEIRA"
+  province: Pontevedra
+  web: "https://razapalleira.com/"
+  logo: club-raza-palleira.png
+- id: club-seo
+  name: "Club SEO"
+  province: A Coruña
+  web: "http://clubseo.es/"
+  logo: club-seo.png
+- id: club-universidade-de-vigo
+  name: "Club Universidade de Vigo"
+  province: Pontevedra
+  web: "https://www.uvigo.gal/campus/deporte"
+  logo: club-universidade-de-vigo.jpg
+- id: club-vivac-objetivo-trail
+  name: "Club Vivac Objetivo Trail"
+  province: Pontevedra
+  web: "http://club.objetivotrail.com"
+- id: cornelios-raiders
+  name: "Cornelios Raiders"
+  province: Pontevedra
+  web: "http://www.cornelios.es"
+  logo: cornelios-raiders.jpg
+- id: marmar-outdoor-s-l
+  name: "MARMAR OUTDOOR S. L."
+  province: A Coruña
+  web: "https://marmaroutdoor.es/"
+- id: our-o
+  name: "OUR-O"
+  province: Ourense
+  logo: our-o.jpg
+- id: sociedad-de-montana-artabros
+  name: "Sociedad de Montaña Ártabros"
+  province: A Coruña
+  web: "http://www.artabros.org/"
+  logo: sociedad-de-montana-artabros.jpg
+- id: trictrack-outdoor-sports
+  name: "TRICTRACK - Outdoor Sports"
+  province: Ourense
+  web: "https://www.trictrack.com"
+- id: usc-seccion-de-orientacion
+  name: "USC - Sección de Orientación"
+  province: A Coruña
+  logo: usc-seccion-de-orientacion.png
+- id: vichelas-o
+  name: "Víchelas-O"
+  province: Lugo
+  logo: vichelas-o.jpg
+- id: vigorienta
+  name: "VIGOrienta"
+  province: Pontevedra
+  web: "https://vigocityrace.es/"
+  logo: vigorienta.jpg
+- id: xesta-natureza
+  name: "XESTA Natureza"
+  province: Pontevedra
+  web: "https://xestanatureza.com/"
+  logo: xesta-natureza.jpg

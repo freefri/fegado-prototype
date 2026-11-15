@@ -1,4 +1,5 @@
-import { defaultLang, languages, sections, ui, type Lang, type UiKey } from "./ui";
+import { routes, type RouteKey } from "./routes";
+import { defaultLang, languages, ui, type Lang, type UiKey } from "./ui";
 
 export function isLang(value: string | undefined): value is Lang {
   return value !== undefined && value in languages;
@@ -23,14 +24,31 @@ export function localizePath(path: string, lang: Lang): string {
   return `${base}${prefix}/${clean}`;
 }
 
+/** Link to a page of the site map in `routes`, e.g. `routePath("clubs", "es")` is `…/es/clubes/`. */
+export function routePath(key: RouteKey, lang: Lang): string {
+  return localizePath(`${routes[key][lang]}/`, lang);
+}
+
+/** Path of `url` inside the site, without the deploy base or the language prefix, e.g. `clubes/`. */
+export function sitePath(url: URL): string {
+  const lang = getLangFromUrl(url);
+  const rest = url.pathname.slice(import.meta.env.BASE_URL.replace(/\/$/, "").length).replace(/^\//, "");
+  return lang === defaultLang ? rest : rest.replace(new RegExp(`^${lang}/?`), "");
+}
+
+/** Whether `url` is the page `key` or one below it. */
+export function isRouteActive(url: URL, key: RouteKey): boolean {
+  const path = sitePath(url);
+  const route = routes[key][getLangFromUrl(url)];
+  return path === route || path.startsWith(`${route}/`);
+}
+
 /** The same page in another language, for the language switch. */
 export function translatePath(url: URL, target: Lang): string {
   const current = getLangFromUrl(url);
-  const base = import.meta.env.BASE_URL.replace(/\/$/, "");
-  let rest = url.pathname.slice(base.length);
-  if (current !== defaultLang) rest = rest.replace(new RegExp(`^/${current}`), "");
-  const [, first = "", ...others] = rest.split("/");
-  const section = Object.values(sections).find((names) => names[current] === first);
-  if (section) rest = ["", section[target], ...others].join("/");
-  return localizePath(rest, target);
+  const path = sitePath(url);
+  const match = (Object.values(routes) as Record<Lang, string>[])
+    .filter((route) => path === route[current] || path.startsWith(`${route[current]}/`))
+    .sort((a, b) => b[current].length - a[current].length)[0];
+  return localizePath(match ? match[target] + path.slice(match[current].length) : path, target);
 }

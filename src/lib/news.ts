@@ -1,5 +1,6 @@
 import { getCollection, type CollectionEntry } from "astro:content";
-import { sections, type Lang } from "@/i18n/ui";
+import { routes } from "@/i18n/routes";
+import type { Lang } from "@/i18n/ui";
 import { localizePath } from "@/i18n/utils";
 import { localDate } from "./format";
 
@@ -18,12 +19,12 @@ export function newsSlug(entry: NewsEntry): string {
 }
 
 export function newsListPath(lang: Lang, options: { year?: number; page?: number } = {}): string {
-  const parts = [sections.news[lang], options.year, options.page && options.page > 1 ? options.page : undefined];
+  const parts = [routes.news[lang], options.year, options.page && options.page > 1 ? options.page : undefined];
   return localizePath(`${parts.filter((part) => part !== undefined).join("/")}/`, lang);
 }
 
 export function newsItemPath(lang: Lang, entry: NewsEntry): string {
-  return localizePath(`${sections.news[lang]}/${newsSlug(entry)}/`, lang);
+  return localizePath(`${routes.news[lang]}/${newsSlug(entry)}/`, lang);
 }
 
 /** Plain-text opening of the body, for cards and meta descriptions. */

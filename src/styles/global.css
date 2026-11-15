@@ -136,6 +136,36 @@
   .news-body blockquote {
     @apply border-l-4 border-chip-border pl-4 italic;
   }
+
+  /* Prose of the content pages (Sobre FEGADO, FAQ), lighter and smaller than news, as designed. */
+  .page-body {
+    @apply text-[15px] leading-[1.55] font-light text-ink-soft;
+  }
+  .page-body > * + *,
+  .page-body .prose-block > * + * {
+    @apply mt-4;
+  }
+  .page-body h2 {
+    @apply mt-12 text-[32px] text-ink first:mt-0 md:text-4xl;
+  }
+  .page-body h3 {
+    @apply mt-9 text-[26px] text-ink first:mt-0 md:text-[28px];
+  }
+  .page-body :is(h2, h3) + * {
+    @apply mt-3;
+  }
+  .page-body strong {
+    @apply font-semibold text-ink;
+  }
+  .page-body a:not([class]) {
+    @apply text-chip-ink underline;
+  }
+  .page-body ul:not([class]) {
+    @apply list-disc pl-6;
+  }
+  .page-body li + li {
+    @apply mt-1.5;
+  }
 }
 
 @layer base {

@@ -1,17 +1,17 @@
 ---
 import { Image } from "astro:assets";
 import { ArrowUpRight } from "@lucide/astro";
-import { aboutPhotos, links } from "@/data/site";
+import { aboutPhotos } from "@/data/site";
 import { images } from "@/data/images";
-import { getLangFromUrl, useTranslations } from "@/i18n/utils";
+import { getLangFromUrl, routePath, useTranslations } from "@/i18n/utils";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
 const pages = [
-  { label: t("about.whoWeAre"), href: "#" },
-  { label: t("about.disciplines"), href: "#" },
-  { label: t("about.join"), href: links.register },
+  { label: t("about.whoWeAre"), href: routePath("who-we-are", lang) },
+  { label: t("about.disciplines"), href: routePath("disciplines", lang) },
+  { label: t("about.join"), href: routePath("join", lang) },
   { label: t("about.board"), href: "#" },
 ];
 ---

@@ -1,0 +1,44 @@
+---
+import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
+import { ArrowUpRight } from "@lucide/astro";
+import { buttonVariants } from "@/components/ui/button";
+import { clubLogos, images } from "@/data/images";
+import Base from "@/layouts/Base.astro";
+import { getLangFromUrl, useTranslations } from "@/i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const clubs = (await getCollection("clubs")).sort((a, b) => a.data.name.localeCompare(b.data.name, lang));
+---
+
+<Base title={`${t("clubs.title")} · FEGADO`}>
+  <div class="mx-auto max-w-[1440px] px-4 pt-10 pb-20 md:px-10 md:pt-14 md:pb-[100px] xl:px-[75px]">
+    <h1 class="mb-6 max-w-[470px] text-[34px] leading-[1.1] md:text-[44px]">{t("clubs.title")}</h1>
+    <p class="mb-12 max-w-[560px] text-[15px] leading-[1.55] font-light text-ink-soft">{t("clubs.intro")}</p>
+
+    <ul class="grid list-none gap-[15px] p-0 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-[30px]">
+      {clubs.map(({ data }) => (
+        <li class="flex flex-col rounded-[14px] border border-blue-border bg-white p-[11px] pb-5">
+          <div class="mb-4 grid aspect-square place-items-center overflow-hidden rounded-xl bg-white">
+            {data.logo ? (
+              <Image src={clubLogos[data.logo]} alt="" widths={[280, 400]} sizes="280px" class="size-full object-contain" />
+            ) : (
+              // Clubs without a logo of their own show the federation's, as news without a photo do.
+              <div class="grid size-full place-items-center bg-chip">
+                <Image src={images.logo.src} alt="" class="h-auto w-[55%]" />
+              </div>
+            )}
+          </div>
+          <h2 class="px-2.5 text-[22px] leading-tight">{data.name}</h2>
+          <p class="mb-4 px-2.5 text-[13px] text-muted">{data.province}</p>
+          {data.web && (
+            <a class={buttonVariants({ className: "mt-auto ml-2.5 self-start" })} href={data.web} target="_blank" rel="noopener">
+              {t("clubs.visit")}<ArrowUpRight />
+            </a>
+          )}
+        </li>
+      ))}
+    </ul>
+  </div>
+</Base>

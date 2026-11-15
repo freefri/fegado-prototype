@@ -22,8 +22,11 @@ El buscador de noticias solo funciona con la web generada (`npm run build` y `np
 - `src/pages/`: una ruta por página; las de castellano van en `src/pages/es/`.
 - `src/content/news/<año>/`: una noticia por archivo Markdown.
 - `src/content/events/`: los eventos de la portada (de momento, los del diseño).
+- `src/content/pages/<idioma>/`: páginas de texto (Sobre FEGADO, preguntas frecuentes) en MDX, una por idioma.
+- `src/content/clubs.yaml`: los clubs, con su logo en `src/assets/images/clubs/`.
 - `src/components/`: piezas de la web; `src/components/ui/` son los componentes de shadcn/ui.
 - `src/i18n/ui.ts`: textos fijos de la web en gallego y castellano.
+- `src/i18n/routes.ts`: la ruta de cada página en cada idioma; el cambio de idioma la usa para traducir la URL.
 - `src/data/`: enlaces, contacto y registro de imágenes.
 - `src/styles/global.css`: colores, tipografías y variables del tema.
 
@@ -41,7 +44,8 @@ Solo descarga lo nuevo; con `--force` vuelve a generar las existentes, conservan
 añadidos a mano (`image`, `imagePosition`, `categories`) y el `lang` corregido.
 
 Toda imagen nueva se añade a `src/data/images.ts` con su origen y propietario. Si falta en el
-registro, o una entrada deja de usarse, `npm run build` falla.
+registro, o una entrada deja de usarse, `npm run build` falla. Los logos de los clubs se registran
+como carpeta: cada archivo debe aparecer en `src/content/clubs.yaml`.
 
 ## Licencia
 

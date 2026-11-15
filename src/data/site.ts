@@ -6,14 +6,11 @@ const INTRANET = "https://intranet.fegado.es";
 
 export const links = {
   events: `${LIVE}/events/`,
-  clubs: `${LIVE}/clubs/`,
   transparency: `${LIVE}/federation/downloads/`,
-  contact: `${LIVE}/contact/`,
   cookies: `${LIVE}/cookies/`,
   legal: `${LIVE}/legal/`,
   privacy: `${LIVE}/privacy/`,
   intranet: `${INTRANET}/`,
-  register: `${INTRANET}/users/register/`,
   channel: "https://groups.google.com/group/fegado",
   live: `${LIVE}/`,
 };
@@ -32,4 +29,7 @@ export const contact = {
   address: ["Rúa Fotógrafo Luis Ksado,", "17, Planta 2, Oficina 22", "36209, Vigo - Pontevedra"],
   phone: { label: "696 459 544", href: "tel:+34696459544" },
   email: { label: "info@fegado.es", href: "mailto:info@fegado.es" },
+  president: "Sonia Gómez Naya",
+  /** Casa do Deporte de Vigo, from OpenStreetMap. */
+  location: { lat: 42.21707, lon: -8.74315 },
 };

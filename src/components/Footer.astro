@@ -4,8 +4,7 @@ import Logo from "./Logo.astro";
 import SocialIcon from "./SocialIcon.astro";
 import { buttonVariants } from "@/components/ui/button";
 import { contact, links } from "@/data/site";
-import { getLangFromUrl, localizePath, useTranslations } from "@/i18n/utils";
-import { newsListPath } from "@/lib/news";
+import { getLangFromUrl, localizePath, routePath, useTranslations } from "@/i18n/utils";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -13,15 +12,15 @@ const home = localizePath("/", lang);
 
 const columns = [
   [
-    { label: t("nav.about"), href: `${home}#conece`, hasMenu: true },
+    { label: t("nav.about"), href: routePath("who-we-are", lang), hasMenu: true },
     { label: t("nav.events"), href: `${home}#eventos` },
-    { label: t("nav.news"), href: newsListPath(lang) },
-    { label: t("nav.clubs"), href: links.clubs },
+    { label: t("nav.news"), href: routePath("news", lang) },
+    { label: t("nav.clubs"), href: routePath("clubs", lang) },
   ],
   [
     { label: t("nav.transparency"), href: links.transparency, hasMenu: true },
-    { label: t("nav.contact"), href: links.contact },
-    { label: t("nav.faq"), href: "#" },
+    { label: t("nav.contact"), href: routePath("contact", lang) },
+    { label: t("nav.faq"), href: routePath("faq", lang) },
   ],
 ];
 

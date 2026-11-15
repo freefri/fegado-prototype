@@ -1,0 +1,34 @@
+---
+import { getEntry, render } from "astro:content";
+import ContactCta from "./ContactCta.astro";
+import Gallery from "./Gallery.astro";
+import ImageStack from "./ImageStack.astro";
+import LinkButton from "./LinkButton.astro";
+import PageIntro from "./PageIntro.astro";
+import Question from "./Question.astro";
+import Base from "@/layouts/Base.astro";
+import { aboutPages, type RouteKey } from "@/i18n/routes";
+import { getLangFromUrl, useTranslations } from "@/i18n/utils";
+
+interface Props {
+  page: RouteKey;
+}
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const { page } = Astro.props;
+const entry = await getEntry("pages", `${lang}/${page}`);
+if (!entry) throw new Error(`Missing page content: src/content/pages/${lang}/${page}.mdx`);
+const { Content } = await render(entry);
+const isAbout = (aboutPages as readonly RouteKey[]).includes(page);
+---
+
+<Base title={`${entry.data.title} · FEGADO`}>
+  <article class="mx-auto max-w-[1146px] px-4 pt-10 pb-20 md:px-10 md:pt-14 md:pb-[100px]">
+    <PageIntro eyebrow={isAbout ? t("nav.about") : undefined} title={entry.data.title} intro={entry.data.intro} image={entry.data.image} />
+    <div class="page-body">
+      <Content components={{ Gallery, ImageStack, LinkButton, Question }} />
+    </div>
+  </article>
+  {isAbout && <ContactCta />}
+</Base>

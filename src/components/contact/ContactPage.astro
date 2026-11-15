@@ -1,0 +1,89 @@
+---
+import { Mail, Phone } from "@lucide/astro";
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { contact, links } from "@/data/site";
+import Base from "@/layouts/Base.astro";
+import { getLangFromUrl, useTranslations } from "@/i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const field = "h-[34px] w-full rounded-full border border-chip-ink/60 bg-white px-3 text-[13px] placeholder:text-ink-soft focus-visible:outline-2";
+const label = "mb-2 block text-[13px] font-medium";
+const { lat, lon } = contact.location;
+const bbox = [lon - 0.012, lat - 0.005, lon + 0.012, lat + 0.005].join(",");
+---
+
+<Base title={`${t("contact.title")} · FEGADO`}>
+  <div class="mx-auto grid max-w-[1146px] items-start gap-12 px-4 pt-10 pb-16 md:px-10 md:pt-14 md:pb-[75px] lg:grid-cols-[minmax(0,365px)_1fr] lg:gap-[75px]">
+    <div>
+      <h1 class="mb-8 text-[34px] leading-[1.1] md:text-[44px]">{t("contact.title")}</h1>
+      <p class="mb-10 text-[15px] leading-[1.55] font-light text-ink-soft">{t("contact.intro")}</p>
+      <div class="grid grid-cols-2 gap-6">
+        <div>
+          <h2 class="mb-2 text-xl">{t("contact.address")}</h2>
+          <address class="text-[15px] leading-[1.55] font-light text-ink-soft not-italic">
+            {contact.address.map((line) => <>{line}<br /></>)}
+          </address>
+        </div>
+        <div>
+          <h2 class="mb-2 text-xl">{t("contact.contact")}</h2>
+          <a class="mb-2 flex items-center gap-2 text-[15px] font-light text-ink-soft no-underline hover:underline" href={contact.phone.href}><Phone class="size-3.5" />{contact.phone.label}</a>
+          <a class="flex items-center gap-2 text-[15px] font-light text-ink-soft no-underline hover:underline" href={contact.email.href}><Mail class="size-3.5" />{contact.email.label}</a>
+        </div>
+      </div>
+      <h2 class="mt-10 mb-2 text-xl">{t("contact.presidency")}</h2>
+      <p class="text-[15px] font-light text-ink-soft">{contact.president}</p>
+    </div>
+
+    <form class="contact-form grid gap-5 rounded-[14px] border border-chip bg-white p-5 md:grid-cols-2 md:p-[21px]" novalidate>
+      <div>
+        <label class={label} for="contact-name">{t("contact.name")}*</label>
+        <input class={field} id="contact-name" name="name" autocomplete="name" required placeholder={t("contact.namePlaceholder")} />
+      </div>
+      <div>
+        <label class={label} for="contact-email">{t("contact.email")}*</label>
+        <input class={field} id="contact-email" name="email" type="email" autocomplete="email" required placeholder={t("contact.emailPlaceholder")} />
+      </div>
+      <div class="md:col-span-2">
+        <label class={label} for="contact-subject">{t("contact.subject")}*</label>
+        <input class={field} id="contact-subject" name="subject" required placeholder={t("contact.subjectPlaceholder")} />
+      </div>
+      <div class="md:col-span-2">
+        <label class={label} for="contact-message">{t("contact.message")}*</label>
+        <textarea class={cn(field, "h-[190px] resize-y rounded-[14px] py-2.5")} id="contact-message" name="message" required placeholder={t("contact.messagePlaceholder")}></textarea>
+      </div>
+      <div class="flex flex-wrap items-center justify-between gap-4 md:col-span-2">
+        <label class="flex items-center gap-2.5 text-[13px]">
+          <input class="size-4 accent-blue-to" type="checkbox" name="terms" required />
+          <span>{t("contact.termsBefore")} <a class="text-chip-ink underline" href={links.legal}>{t("contact.termsLink")}</a> {t("contact.termsAfter")}</span>
+        </label>
+        <button class={buttonVariants({ className: "px-[37px]" })} type="submit">{t("contact.send")}</button>
+      </div>
+      <p class="contact-status hidden rounded-md bg-chip px-4 py-3 text-sm text-chip-ink md:col-span-2" role="status">
+        {t("contact.prototype")} <a class="underline" href={contact.email.href}>{contact.email.label}</a>.
+      </p>
+    </form>
+  </div>
+
+  <div class="mx-auto mb-2 max-w-[1440px] px-2 md:mb-[15px] md:px-[15px]">
+    <iframe
+      class="block h-[360px] w-full rounded-lg border-0 md:h-[467px]"
+      title={t("contact.map")}
+      loading="lazy"
+      src={`https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat},${lon}`}
+    ></iframe>
+  </div>
+</Base>
+
+<script>
+  // The prototype has no server to send mail, so a valid form only explains that and links the address.
+  for (const form of document.querySelectorAll<HTMLFormElement>(".contact-form")) {
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      if (!form.reportValidity()) return;
+      form.querySelector(".contact-status")?.classList.remove("hidden");
+    });
+  }
+</script>

@@ -17,9 +17,20 @@ function walk(dir) {
 
 const problems = [];
 
+// Folders registered as a whole: every file must be named by an entry of the data file that uses it.
+const folders = [{ dir: "clubs", glob: "../assets/images/clubs/*", usedIn: "src/content/clubs.yaml" }];
+
 for (const file of walk(join(root, "src/assets/images")).filter((f) => IMAGE.test(f))) {
-  const importPath = `@/assets/images/${relative(join(root, "src/assets/images"), file)}`;
-  if (!registry.includes(`"${importPath}"`)) problems.push(`not registered: src/assets/images/${relative(join(root, "src/assets/images"), file)}`);
+  const path = relative(join(root, "src/assets/images"), file);
+  const folder = folders.find((f) => path.startsWith(`${f.dir}/`));
+  if (folder) {
+    if (!registry.includes(`"${folder.glob}"`)) problems.push(`folder not registered: src/assets/images/${folder.dir}/`);
+    const name = path.slice(folder.dir.length + 1);
+    if (!new RegExp(`:\\s*${name.replace(/[.]/g, "\\.")}\\s*$`, "m").test(readFileSync(join(root, folder.usedIn), "utf8")))
+      problems.push(`registered but unused: src/assets/images/${path} (not in ${folder.usedIn})`);
+  } else if (!registry.includes(`"@/assets/images/${path}"`)) {
+    problems.push(`not registered: src/assets/images/${path}`);
+  }
 }
 
 for (const file of readdirSync(join(root, "public")).filter((f) => IMAGE.test(f))) {
