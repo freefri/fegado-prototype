@@ -13,16 +13,32 @@ Requiere Node 22 (`nvm use` toma la versión de `.nvmrc`).
 ```bash
 npm install
 npm run dev       # http://localhost:4321/fegado-prototype/
-npm run build     # comprueba imágenes y tipos, y genera dist/
+npm run build     # comprueba imágenes y tipos, genera dist/ y el índice del buscador
 ```
 
 Cada push a `main` publica la web en GitHub Pages; en un pull request solo se comprueba que compila.
+El buscador de noticias solo funciona con la web generada (`npm run build` y `npm run preview`).
 
 - `src/pages/`: una ruta por página; las de castellano van en `src/pages/es/`.
+- `src/content/news/<año>/`: una noticia por archivo Markdown.
+- `src/content/events/`: los eventos de la portada (de momento, los del diseño).
 - `src/components/`: piezas de la web; `src/components/ui/` son los componentes de shadcn/ui.
 - `src/i18n/ui.ts`: textos fijos de la web en gallego y castellano.
-- `src/data/`: contenido de la portada y registro de imágenes.
+- `src/data/`: enlaces, contacto y registro de imágenes.
 - `src/styles/global.css`: colores, tipografías y variables del tema.
+
+### Noticias
+
+Las noticias se importan de <https://fegado.es/> y no se traducen: cada una indica en `lang` el
+idioma en que se escribió.
+
+```bash
+node scripts/import-news.mjs --since 2026    # noticias desde 2026
+node scripts/import-news.mjs --all           # todo el archivo
+```
+
+Solo descarga lo nuevo; con `--force` vuelve a generar las existentes, conservando los campos
+añadidos a mano (`image`, `imagePosition`, `categories`) y el `lang` corregido.
 
 Toda imagen nueva se añade a `src/data/images.ts` con su origen y propietario. Si falta en el
 registro, o una entrada deja de usarse, `npm run build` falla.

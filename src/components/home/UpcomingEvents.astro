@@ -2,10 +2,12 @@
 import { ArrowUpRight } from "@lucide/astro";
 import EventCard from "./EventCard.astro";
 import { buttonVariants } from "@/components/ui/button";
-import { links, upcomingEvents } from "@/data/home";
+import { links } from "@/data/site";
+import { getUpcomingEvents } from "@/lib/events";
 import { getLangFromUrl, useTranslations } from "@/i18n/utils";
 
 const t = useTranslations(getLangFromUrl(Astro.url));
+const upcomingEvents = await getUpcomingEvents();
 ---
 
 <section

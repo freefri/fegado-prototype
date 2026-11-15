@@ -1,0 +1,105 @@
+---
+import { Image } from "astro:assets";
+import { render } from "astro:content";
+import { ArrowLeft, ArrowUpRight, Calendar, FileText, Languages, Mail, User } from "@lucide/astro";
+import SocialIcon from "@/components/SocialIcon.astro";
+import { badgeVariants } from "@/components/ui/badge";
+import { buttonVariants } from "@/components/ui/button";
+import { images } from "@/data/images";
+import Base from "@/layouts/Base.astro";
+import { getLangFromUrl, useTranslations } from "@/i18n/utils";
+import { metaDate } from "@/lib/format";
+import { newsListPath, type NewsEntry } from "@/lib/news";
+
+interface Props {
+  entry: NewsEntry;
+}
+
+const { entry } = Astro.props;
+const { data } = entry;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const { Content } = await render(entry);
+
+const url = encodeURIComponent(new URL(Astro.url.pathname, Astro.site).href);
+const text = encodeURIComponent(data.title);
+const share = [
+  { name: "linkedin", label: "LinkedIn", href: `https://www.linkedin.com/sharing/share-offsite/?url=${url}` },
+  { name: "facebook", label: "Facebook", href: `https://www.facebook.com/sharer/sharer.php?u=${url}` },
+  { name: "x", label: "X", href: `https://x.com/intent/post?url=${url}&text=${text}` },
+  { name: "whatsapp", label: "WhatsApp", href: `https://wa.me/?text=${text}%20${url}` },
+] as const;
+const iconButton = "grid size-10 place-items-center rounded-md border border-chip-border bg-white text-ink no-underline hover:bg-chip";
+---
+
+<Base title={`${data.title} · FEGADO`}>
+  <article class="mx-auto max-w-[860px] px-4 pt-10 pb-20 md:px-10 md:pt-14" data-pagefind-body>
+    <a href={newsListPath(lang)} class={buttonVariants({ variant: "outline", className: "mb-8" })} data-pagefind-ignore>
+      <ArrowLeft />{t("newsItem.back")}
+    </a>
+
+    {data.categories.length > 0 && (
+      <div class="mb-4 flex flex-wrap gap-1.5">
+        {data.categories.map((category) => <span class={badgeVariants()}>{category}</span>)}
+      </div>
+    )}
+
+    <h1 class="mb-5 text-[32px] leading-[1.15] md:text-[44px]" lang={data.lang}>{data.title}</h1>
+
+    <div class="mb-5 flex flex-wrap gap-x-5 gap-y-1.5 text-sm text-ink-soft" data-pagefind-ignore>
+      <span class="inline-flex items-center gap-1.5"><Calendar class="size-3.5" /><time datetime={data.date.toISOString()}>{metaDate(data.date, lang)}</time></span>
+      {data.author && <span class="inline-flex items-center gap-1.5"><User class="size-3.5" />{data.author}</span>}
+    </div>
+
+    <ul aria-label={t("newsItem.share")} class="mb-8 flex list-none gap-2 p-0" data-pagefind-ignore>
+      {share.map((item) => (
+        <li><a class={iconButton} href={item.href} aria-label={`${t("newsItem.share")}: ${item.label}`} rel="noopener" target="_blank"><SocialIcon name={item.name} /></a></li>
+      ))}
+      <li><a class={iconButton} href={`mailto:?subject=${text}&body=${url}`} aria-label={`${t("newsItem.share")}: email`}><Mail class="size-4" /></a></li>
+    </ul>
+
+    {data.lang !== lang && (
+      <p class="mb-8 flex items-center gap-2 rounded-md bg-chip px-4 py-3 text-sm text-chip-ink" data-pagefind-ignore>
+        <Languages class="size-4 shrink-0" />{t("newsItem.otherLang")}
+      </p>
+    )}
+
+    {data.image && (
+      <Image
+        src={images[data.image].src}
+        alt={images[data.image].alt[lang]}
+        widths={[800, 1600]}
+        sizes="(max-width: 860px) 100vw, 780px"
+        class="mb-10 aspect-[16/9] w-full rounded-xl object-cover"
+        style={data.imagePosition ? `object-position: ${data.imagePosition}` : undefined}
+      />
+    )}
+
+    <div class="news-body" lang={data.lang}>
+      <Content />
+    </div>
+
+    {data.attachments.length > 0 && (
+      <section class="mt-12" data-pagefind-ignore>
+        <h2 class="mb-4 text-2xl">{t("newsItem.attachments")}</h2>
+        <ul class="grid list-none gap-2 p-0">
+          {data.attachments.map((file) => (
+            <li>
+              <a href={file.url} class="flex items-center gap-3 rounded-md border border-chip-border bg-white px-4 py-3 text-chip-ink no-underline hover:bg-chip" target="_blank" rel="noopener">
+                <FileText class="size-4 shrink-0" />
+                <span class="flex-1">{file.title}</span>
+                <ArrowUpRight class="size-4 shrink-0" />
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    {data.legacyUrl && (
+      <p class="mt-12 text-sm text-muted" data-pagefind-ignore>
+        <a href={data.legacyUrl} class="underline">{t("newsItem.original")}</a>
+      </p>
+    )}
+  </article>
+</Base>

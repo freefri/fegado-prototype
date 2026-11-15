@@ -12,3 +12,6 @@ dist/
 
 # Astro
 .astro/
+
+# Importer cache of downloaded pages
+.cache/

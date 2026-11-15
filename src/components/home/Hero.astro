@@ -2,12 +2,13 @@
 import { Image } from "astro:assets";
 import { ArrowUpRight, ChevronLeft, ChevronRight } from "@lucide/astro";
 import { buttonVariants } from "@/components/ui/button";
-import { events } from "@/data/home";
+import { getHeroEvents, secondsLeft } from "@/lib/events";
 import { images } from "@/data/images";
 import { getLangFromUrl, useTranslations } from "@/i18n/utils";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+const events = await getHeroEvents();
 
 const units = [
   { label: t("countdown.days"), seconds: 86_400 },
@@ -41,7 +42,7 @@ function split(total: number) {
         aria-label={`${t("hero.slide")} ${index + 1} / ${events.length}`}
       >
         <Image
-          src={images[event.heroImage].src}
+          src={images[event.data.heroImage].src}
           alt=""
           widths={[800, 1440, 1600]}
           sizes="(max-width: 1440px) 100vw, 1410px"
@@ -51,18 +52,22 @@ function split(total: number) {
         <div class="absolute inset-0 bg-[rgb(0_10_30/0.42)]" aria-hidden="true"></div>
         <div class="relative px-5 md:px-[70px]">
           <h2 class="mx-auto max-w-[620px] text-[26px] leading-[1.12] [text-shadow:0_1px_8px_rgb(0_0_0/0.3)] md:text-left md:text-[34px]">
-            {event.title}
+            {event.data.title}
           </h2>
           <p class="mt-2.5 mb-3.5 text-[17px]">{t("hero.deadline")}</p>
-          <div class="countdown mb-[26px] flex justify-center gap-1.5 md:gap-[18px]" data-seconds-left={event.registrationSecondsLeft}>
-            {split(event.registrationSecondsLeft).map((unit) => (
+          <div
+            class="countdown mb-[26px] flex justify-center gap-1.5 md:gap-[18px]"
+            data-deadline={event.data.registrationDeadline?.toISOString()}
+            data-seconds-left={event.data.demoSecondsLeft}
+          >
+            {split(secondsLeft(event)).map((unit) => (
               <div class="min-w-[60px] md:min-w-[74px]">
                 <b class="block font-heading text-[40px] leading-none font-semibold tabular-nums md:text-[54px]" data-unit={unit.seconds}>{unit.value}</b>
                 <span class="text-sm md:text-[17px]">{unit.label}</span>
               </div>
             ))}
           </div>
-          <a class={buttonVariants()} href={event.href}>{t("events.visit")}<ArrowUpRight /></a>
+          <a class={buttonVariants()} href={event.data.href}>{t("events.visit")}<ArrowUpRight /></a>
         </div>
       </article>
     ))}
@@ -110,11 +115,10 @@ function split(total: number) {
     show(0);
   }
 
-  // The design's events are already past, so each deadline counts from page load to keep the
-  // countdown live in the prototype. Real events will carry their actual deadline.
+  // Demo events (the design's, already past) count down from page load; real events carry a deadline.
   const loadedAt = Date.now();
   const counters = [...document.querySelectorAll<HTMLElement>(".countdown")].map((el) => ({
-    deadline: loadedAt + Number(el.dataset.secondsLeft) * 1000,
+    deadline: el.dataset.deadline ? Date.parse(el.dataset.deadline) : loadedAt + Number(el.dataset.secondsLeft) * 1000,
     cells: [...el.querySelectorAll<HTMLElement>("[data-unit]")],
   }));
 

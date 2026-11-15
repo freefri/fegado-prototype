@@ -3,8 +3,9 @@ import { Mail, Phone, Send, User } from "@lucide/astro";
 import Logo from "./Logo.astro";
 import SocialIcon from "./SocialIcon.astro";
 import { buttonVariants } from "@/components/ui/button";
-import { contact, links } from "@/data/home";
+import { contact, links } from "@/data/site";
 import { getLangFromUrl, localizePath, useTranslations } from "@/i18n/utils";
+import { newsListPath } from "@/lib/news";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -14,7 +15,7 @@ const columns = [
   [
     { label: t("nav.about"), href: `${home}#conece`, hasMenu: true },
     { label: t("nav.events"), href: `${home}#eventos` },
-    { label: t("nav.news"), href: `${home}#novas` },
+    { label: t("nav.news"), href: newsListPath(lang) },
     { label: t("nav.clubs"), href: links.clubs },
   ],
   [

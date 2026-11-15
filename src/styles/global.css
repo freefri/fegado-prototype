@@ -96,6 +96,48 @@
   background-image: linear-gradient(90deg, var(--blue-from), var(--blue-to));
 }
 
+/* Body text of news and pages written in Markdown. */
+@layer components {
+  .news-body {
+    @apply text-[17px] leading-[1.7] text-ink-soft;
+  }
+  .news-body > * + * {
+    @apply mt-5;
+  }
+  .news-body :is(h2, h3, h4) {
+    @apply mt-10 text-ink;
+  }
+  .news-body h2 { @apply text-[28px]; }
+  .news-body h3 { @apply text-2xl; }
+  .news-body h4 { @apply text-xl; }
+  .news-body a {
+    @apply break-words text-chip-ink underline;
+  }
+  .news-body strong {
+    @apply font-semibold text-ink;
+  }
+  .news-body :is(ul, ol) {
+    @apply pl-6;
+  }
+  .news-body ul { @apply list-disc; }
+  .news-body ol { @apply list-decimal; }
+  .news-body li + li {
+    @apply mt-1.5;
+  }
+  .news-body img {
+    @apply h-auto max-w-full rounded-lg;
+  }
+  .news-body table {
+    @apply block w-full overflow-x-auto border-collapse text-[15px];
+  }
+  .news-body :is(th, td) {
+    @apply border border-chip-border px-3 py-2 text-left;
+  }
+  .news-body blockquote {
+    @apply border-l-4 border-chip-border pl-4 italic;
+  }
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;

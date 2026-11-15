@@ -1,0 +1,69 @@
+---
+import { ChevronLeft, ChevronRight } from "@lucide/astro";
+import NewsCard from "./NewsCard.astro";
+import Search from "./Search.astro";
+import Base from "@/layouts/Base.astro";
+import { getLangFromUrl, useTranslations } from "@/i18n/utils";
+import { newsListPath, type NewsEntry } from "@/lib/news";
+import { cn } from "@/lib/utils";
+
+interface Props {
+  entries: NewsEntry[];
+  page: number;
+  totalPages: number;
+  years: number[];
+  year?: number;
+}
+
+const { entries, page, totalPages, years, year } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const title = year ? t("newsList.yearTitle", { year }) : t("newsList.title");
+const pageHref = (target: number) => newsListPath(lang, { year, page: target });
+
+// Around the current page plus first and last, so 140+ pages stay a short row.
+const shown = [...new Set([1, page - 2, page - 1, page, page + 1, page + 2, totalPages])]
+  .filter((n) => n >= 1 && n <= totalPages)
+  .sort((a, b) => a - b);
+
+const tab = "rounded-full border border-chip-border px-3.5 py-1.5 text-sm no-underline transition-colors hover:bg-chip";
+const activeTab = "border-chip-ink bg-chip-ink text-white hover:bg-chip-ink";
+---
+
+<Base title={`${title} · FEGADO`}>
+  <section class="mx-auto max-w-[1440px] px-4 pt-12 pb-20 md:px-10 md:pt-[72px] xl:px-[75px]">
+    <h1 class="mb-6 text-[40px] md:text-[56px]">{title}</h1>
+    <p class="mb-10 max-w-[640px] leading-relaxed font-light text-muted">{t("newsList.intro")}</p>
+
+    <Search />
+
+    <nav aria-label={t("newsList.years")} class="mb-10 flex flex-wrap gap-2">
+      <a href={newsListPath(lang)} class={cn(tab, !year && activeTab)} aria-current={!year ? "page" : undefined}>{t("newsList.all")}</a>
+      {years.map((y) => (
+        <a href={newsListPath(lang, { year: y })} class={cn(tab, y === year && activeTab)} aria-current={y === year ? "page" : undefined}>{y}</a>
+      ))}
+    </nav>
+
+    <div class="grid gap-[30px] md:grid-cols-2 xl:grid-cols-3">
+      {entries.map((entry) => <NewsCard entry={entry} />)}
+    </div>
+
+    {totalPages > 1 && (
+      <nav aria-label={t("newsList.pagination")} class="mt-12 flex flex-wrap items-center justify-center gap-2">
+        {page > 1 && (
+          <a href={pageHref(page - 1)} class={cn(tab, "inline-flex items-center gap-1")} rel="prev"><ChevronLeft class="size-4" />{t("newsList.previous")}</a>
+        )}
+        {shown.map((n, i) => (
+          <>
+            {i > 0 && n - shown[i - 1] > 1 && <span class="px-1 text-muted" aria-hidden="true">…</span>}
+            <a href={pageHref(n)} class={cn(tab, "min-w-10 text-center", n === page && activeTab)} aria-current={n === page ? "page" : undefined}>{n}</a>
+          </>
+        ))}
+        {page < totalPages && (
+          <a href={pageHref(page + 1)} class={cn(tab, "inline-flex items-center gap-1")} rel="next">{t("newsList.next")}<ChevronRight class="size-4" /></a>
+        )}
+        <p class="sr-only">{t("newsList.page", { page, total: totalPages })}</p>
+      </nav>
+    )}
+  </section>
+</Base>

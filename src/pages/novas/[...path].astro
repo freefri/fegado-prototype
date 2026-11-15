@@ -1,0 +1,8 @@
+---
+import NewsRoute from "@/components/news/NewsRoute.astro";
+import { newsStaticPaths, type NewsRouteProps } from "@/lib/news-routes";
+
+export const getStaticPaths = newsStaticPaths;
+---
+
+<NewsRoute {...(Astro.props as NewsRouteProps)} />

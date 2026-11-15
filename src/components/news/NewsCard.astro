@@ -1,0 +1,54 @@
+---
+import { Image } from "astro:assets";
+import { ArrowUpRight, Calendar, User } from "@lucide/astro";
+import { badgeVariants } from "@/components/ui/badge";
+import { buttonVariants } from "@/components/ui/button";
+import { images } from "@/data/images";
+import { getLangFromUrl, useTranslations } from "@/i18n/utils";
+import { metaDate } from "@/lib/format";
+import { excerpt, newsItemPath, type NewsEntry } from "@/lib/news";
+
+interface Props {
+  entry: NewsEntry;
+}
+
+const { entry } = Astro.props;
+const { data } = entry;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const href = newsItemPath(lang, entry);
+---
+
+<article class="flex flex-col rounded-[14px] border border-blue-border bg-white p-[21px] transition-shadow hover:shadow-[0_12px_32px_rgb(19_68_130/0.14)]">
+  <div class="relative mb-[26px] aspect-[365/216] overflow-hidden rounded-xl bg-chip">
+    {data.image ? (
+      <Image
+        src={images[data.image].src}
+        alt=""
+        widths={[400, 800]}
+        sizes="(max-width: 768px) 100vw, 400px"
+        class="size-full object-cover"
+        style={data.imagePosition ? `object-position: ${data.imagePosition}` : undefined}
+      />
+    ) : (
+      // News without its own photo shows the federation logo, as the design does.
+      <div class="grid size-full place-items-center">
+        <Image src={images.logo.src} alt="" class="h-auto w-[46%]" />
+      </div>
+    )}
+    {data.categories.length > 0 && (
+      <div class="absolute top-3 right-3 flex gap-1">
+        {data.categories.map((category) => <span class={badgeVariants()}>{category}</span>)}
+      </div>
+    )}
+  </div>
+  <div class="mb-2.5 flex flex-wrap gap-x-[18px] gap-y-1.5 text-xs text-ink-soft">
+    <span class="inline-flex items-center gap-1.5"><Calendar class="size-3" />{metaDate(data.date, lang)}</span>
+    {data.author && <span class="inline-flex items-center gap-1.5"><User class="size-3" />{data.author}</span>}
+  </div>
+  <h3 class="mb-1 line-clamp-2 text-2xl leading-[1.25]" lang={data.lang}>
+    <a href={href} class="no-underline hover:underline">{data.title}</a>
+  </h3>
+  <p class="mb-5 line-clamp-3 text-sm leading-[1.35] font-light text-ink-soft" lang={data.lang}>{excerpt(entry)}</p>
+  <a class={buttonVariants({ className: "mt-auto self-start" })} href={href} aria-hidden="true" tabindex="-1">{t("news.readMore")}<ArrowUpRight /></a>
+</article>

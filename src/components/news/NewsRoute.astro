@@ -1,0 +1,10 @@
+---
+import NewsItem from "./NewsItem.astro";
+import NewsList from "./NewsList.astro";
+import type { NewsRouteProps } from "@/lib/news-routes";
+
+type Props = NewsRouteProps;
+const props = Astro.props;
+---
+
+{props.kind === "item" ? <NewsItem entry={props.entry} /> : <NewsList {...props} />}

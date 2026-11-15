@@ -1,13 +1,15 @@
 ---
 import { Image } from "astro:assets";
-import NewsCard from "./NewsCard.astro";
+import NewsCard from "@/components/news/NewsCard.astro";
 import { buttonVariants } from "@/components/ui/button";
-import { links, news, sponsors } from "@/data/home";
+import { sponsors } from "@/data/site";
 import { images } from "@/data/images";
 import { getLangFromUrl, useTranslations } from "@/i18n/utils";
+import { getSortedNews, newsListPath } from "@/lib/news";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+const latest = (await getSortedNews()).slice(0, 3);
 ---
 
 <section id="novas" class="mx-auto max-w-[1440px] px-4 pt-[72px] md:px-10 md:pt-[125px] xl:px-[75px]">
@@ -16,14 +18,14 @@ const t = useTranslations(lang);
     <p class="leading-[1.55] font-light text-muted">{t("news.intro")}</p>
   </div>
   <div class="grid gap-[30px] md:grid-cols-2 xl:grid-cols-3">
-    {news.map((item, index) => (
+    {latest.map((entry, index) => (
       <div class:list={["grid", index === 2 && "md:hidden xl:grid"]}>
-        <NewsCard item={item} />
+        <NewsCard entry={entry} />
       </div>
     ))}
   </div>
   <div class="mt-[30px] flex justify-center">
-    <a class={buttonVariants({ variant: "dark" })} href={links.news}>{t("news.more")}</a>
+    <a class={buttonVariants({ variant: "dark" })} href={newsListPath(lang)}>{t("news.more")}</a>
   </div>
 
   <ul aria-label={t("sponsors.label")} class="m-0 flex list-none flex-wrap justify-center gap-[15px] p-0 pt-[72px] pb-10 md:pt-[166px] md:pb-[72px]">

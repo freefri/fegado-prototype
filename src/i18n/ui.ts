@@ -2,6 +2,11 @@ export const languages = { gl: "Galego", es: "Castellano" } as const;
 export type Lang = keyof typeof languages;
 export const defaultLang: Lang = "gl";
 
+/** First URL segment of each section, per language, e.g. /novas/ and /es/noticias/. */
+export const sections = {
+  news: { gl: "novas", es: "noticias" },
+} as const satisfies Record<string, Record<Lang, string>>;
+
 /** Texts that belong to the site itself. Content such as news stays in its original language. */
 export const ui = {
   gl: {
@@ -59,6 +64,33 @@ export const ui = {
     "footer.legalNotice": "Aviso legal",
     "footer.privacy": "Política de privacidade",
     "footer.accessibility": "Accesibilidade",
+    "discipline.o-pe": "O-Pé",
+    "discipline.escolar": "Escolar e Universitario",
+    "discipline.mtbo": "MTB-O",
+    "discipline.raid": "Raid",
+    "discipline.trail-o": "Trail-O",
+    "discipline.rogaine": "Rogaine",
+    "newsList.title": "Novas",
+    "newsList.yearTitle": "Novas de {year}",
+    "newsList.intro": "Toda a actividade da Federación Galega de Orientación: competicións, resultados, formación e a actualidade dos clubs e deportistas.",
+    "newsList.all": "Todas",
+    "newsList.years": "Filtrar por ano",
+    "newsList.search": "Busca novas...",
+    "newsList.page": "Páxina {page} de {total}",
+    "newsList.previous": "Anteriores",
+    "newsList.next": "Seguintes",
+    "newsList.pagination": "Paxinación",
+    "newsItem.back": "Voltar",
+    "newsItem.attachments": "Adxuntos",
+    "newsItem.share": "Compartir",
+    "newsItem.original": "Ver na web actual",
+    "newsItem.otherLang": "Esta nova está publicada en castelán.",
+    "search.label": "Buscar",
+    "search.noResults": "Non se atoparon resultados para [SEARCH_TERM]",
+    "search.oneResult": "[COUNT] resultado para [SEARCH_TERM]",
+    "search.manyResults": "[COUNT] resultados para [SEARCH_TERM]",
+    "search.loadMore": "Cargar máis resultados",
+    "search.clear": "Borrar",
   },
   es: {
     "meta.title": "Prototipo · FEGADO · Federación Gallega de Orientación",
@@ -115,6 +147,33 @@ export const ui = {
     "footer.legalNotice": "Aviso legal",
     "footer.privacy": "Política de privacidad",
     "footer.accessibility": "Accesibilidad",
+    "discipline.o-pe": "O-Pie",
+    "discipline.escolar": "Escolar y Universitario",
+    "discipline.mtbo": "MTB-O",
+    "discipline.raid": "Raid",
+    "discipline.trail-o": "Trail-O",
+    "discipline.rogaine": "Rogaine",
+    "newsList.title": "Noticias",
+    "newsList.yearTitle": "Noticias de {year}",
+    "newsList.intro": "Toda la actividad de la Federación Gallega de Orientación: competiciones, resultados, formación y la actualidad de los clubes y deportistas.",
+    "newsList.all": "Todas",
+    "newsList.years": "Filtrar por año",
+    "newsList.search": "Busca noticias...",
+    "newsList.page": "Página {page} de {total}",
+    "newsList.previous": "Anteriores",
+    "newsList.next": "Siguientes",
+    "newsList.pagination": "Paginación",
+    "newsItem.back": "Volver",
+    "newsItem.attachments": "Adjuntos",
+    "newsItem.share": "Compartir",
+    "newsItem.original": "Ver en la web actual",
+    "newsItem.otherLang": "Esta noticia está publicada en gallego.",
+    "search.label": "Buscar",
+    "search.noResults": "No se encontraron resultados para [SEARCH_TERM]",
+    "search.oneResult": "[COUNT] resultado para [SEARCH_TERM]",
+    "search.manyResults": "[COUNT] resultados para [SEARCH_TERM]",
+    "search.loadMore": "Cargar más resultados",
+    "search.clear": "Borrar",
   },
 } as const satisfies Record<Lang, Record<string, string>>;
 

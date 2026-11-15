@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "astro dev",
     "check:images": "node scripts/check-images.mjs",
-    "build": "npm run check:images && astro check && astro build",
+    "build": "npm run check:images && astro check && astro build && pagefind --site dist",
     "preview": "astro preview"
   },
   "engines": {
@@ -31,5 +31,9 @@
     "tailwind-merge": "^3.7.0",
     "tailwindcss": "^4.3.5",
     "typescript": "^6.0.3"
+  },
+  "devDependencies": {
+    "pagefind": "^1.6.0",
+    "turndown": "^7.2.5"
   }
 }

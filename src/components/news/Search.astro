@@ -1,0 +1,50 @@
+---
+// Pagefind's index is built after `astro build`, so search only works on built sites, not in
+// `npm run dev`.
+import { getLangFromUrl, useTranslations } from "@/i18n/utils";
+
+const t = useTranslations(getLangFromUrl(Astro.url));
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const strings = {
+  placeholder: t("newsList.search"),
+  search_label: t("search.label"),
+  zero_results: t("search.noResults"),
+  one_result: t("search.oneResult"),
+  many_results: t("search.manyResults"),
+  load_more: t("search.loadMore"),
+  clear_search: t("search.clear"),
+};
+---
+
+<link rel="stylesheet" href={`${base}/pagefind/pagefind-ui.css`} />
+<div class="news-search mb-6 max-w-[640px]" data-bundle={`${base}/pagefind/`} data-strings={JSON.stringify(strings)}></div>
+<script is:inline src={`${base}/pagefind/pagefind-ui.js`}></script>
+<script>
+  type PagefindUIConstructor = new (options: Record<string, unknown>) => unknown;
+
+  const element = document.querySelector<HTMLElement>(".news-search");
+  const PagefindUI = (window as unknown as { PagefindUI?: PagefindUIConstructor }).PagefindUI;
+  if (element && PagefindUI) {
+    new PagefindUI({
+      element,
+      bundlePath: element.dataset.bundle,
+      showImages: false,
+      showSubResults: false,
+      resetStyles: false,
+      translations: JSON.parse(element.dataset.strings ?? "{}"),
+    });
+  }
+</script>
+
+<style is:global>
+  .news-search {
+    --pagefind-ui-primary: var(--chip-ink);
+    --pagefind-ui-text: var(--ink);
+    --pagefind-ui-border: var(--chip-border);
+    --pagefind-ui-border-width: 1px;
+    --pagefind-ui-border-radius: 999px;
+    --pagefind-ui-tag: var(--chip);
+    --pagefind-ui-font: "Source Sans 3", system-ui, sans-serif;
+    --pagefind-ui-scale: 0.85;
+  }
+</style>
