@@ -1,5 +1,5 @@
 import { routes, type RouteKey } from "./routes";
-import { defaultLang, languages, ui, type Lang, type UiKey } from "./ui";
+import { defaultLang, fallback, languages, ui, type Lang, type UiKey } from "./ui";
 
 export function isLang(value: string | undefined): value is Lang {
   return value !== undefined && value in languages;
@@ -13,7 +13,7 @@ export function getLangFromUrl(url: URL): Lang {
 /** `t("newsList.page", { page: 2, total: 9 })` fills the `{page}` and `{total}` placeholders. */
 export function useTranslations(lang: Lang) {
   return (key: UiKey, values: Record<string, string | number> = {}): string =>
-    (ui[lang][key] ?? ui[defaultLang][key]).replace(/\{(\w+)\}/g, (match, name) => String(values[name] ?? match));
+    (ui[lang][key] ?? fallback[key]).replace(/\{(\w+)\}/g, (match, name) => String(values[name] ?? match));
 }
 
 /** Builds a site link for `lang`, adding the language prefix and the deploy base path. */

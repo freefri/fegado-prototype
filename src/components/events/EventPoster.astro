@@ -17,7 +17,7 @@ const { event, widths, sizes, class: className, loading = "lazy" } = Astro.props
 const { data } = event;
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-const alt = t("events.posterOf", { title: data.title });
+const alt = t("event.posterOf", { title: data.title });
 ---
 
 {data.poster ? (

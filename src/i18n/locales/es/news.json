@@ -1,0 +1,30 @@
+{
+  "newsList": {
+    "title": "Noticias",
+    "topicTitle": "Noticias: {topic}",
+    "intro": "Toda la actividad de la Federación Gallega de Orientación: competiciones, resultados, formación y la actualidad de los clubes y deportistas.",
+    "all": "Todas",
+    "topics": "Filtrar por categoría",
+    "search": "Busca noticias...",
+    "page": "Página {page} de {total}",
+    "previous": "Anteriores",
+    "next": "Siguientes",
+    "pagination": "Paginación"
+  },
+  "newsItem": {
+    "back": "Volver",
+    "attachments": "Adjuntos",
+    "share": "Compartir",
+    "original": "Ver en la web actual",
+    "otherLang": "Esta noticia está publicada en gallego.",
+    "relatedEvents": "Eventos relacionados",
+    "relatedNews": "Noticias relacionadas"
+  },
+  "newsTopic": {
+    "eventos": "Eventos",
+    "resultados": "Resultados",
+    "comunicacion": "Comunicación",
+    "formacion": "Formación",
+    "promocion": "Promoción"
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "hero": {
+    "label": "Eventos con inscrición aberta",
+    "deadline": "O prazo de inscrición finaliza en",
+    "previous": "Anterior",
+    "next": "Seguinte",
+    "choose": "Escoller evento",
+    "slide": "Evento"
+  },
+  "countdown": {
+    "days": "Días",
+    "hours": "Horas",
+    "minutes": "Minutos",
+    "seconds": "Segundos"
+  },
+  "events": {
+    "title": "Próximos eventos",
+    "intro1": "Consulta os eventos e competicións organizados pola Federación Galega de Orientación ao longo do ano. Accede á información actualizada sobre probas, datas e localizacións, así como aos detalles de participación.",
+    "intro2": "Se formas parte da comunidade federativa, podes acceder á intranet para xestionar inscricións, resultados e outros trámites relacionados coa actividade deportiva.",
+    "more": "Ver máis eventos",
+    "personalArea": "Accede á Area Persoal",
+    "listLabel": "Lista de próximos eventos",
+    "visit": "Visita o evento",
+    "official": "Evento oficial",
+    "unofficial": "Evento non oficial"
+  },
+  "about": {
+    "title": "Coñece á Federación Galega de Orientación",
+    "text1": "A orientación é un deporte que se practica en contacto coa natureza, combinando desprazamento e toma de decisións. A Federación Galega de Orientación encárgase da súa organización en Galicia, coordinando competicións, modalidades e a actividade dos clubs.",
+    "text2": "Nesta sección poderás coñecer mellor o funcionamento da federación, as diferentes modalidades e como participar.",
+    "whoWeAre": "Quen somos",
+    "disciplines": "Modalidades",
+    "join": "Fedérate",
+    "board": "Xunta directiva"
+  },
+  "news": {
+    "title": "Últimas novas",
+    "intro": "Mantente ao día da actividade da Federación Galega de Orientación. Aquí atoparás novas, eventos e información relevante sobre competicións, formación e a actualidade dos clubs e deportistas.",
+    "readMore": "Ler máis",
+    "more": "Ver máis novas"
+  },
+  "sponsors": {
+    "label": "Entidades colaboradoras"
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "meta": {
+    "title": "Prototipo · FEGADO · Federación Galega de Orientación",
+    "description": "Prototipo de deseño da nova web pública da Federación Galega de Orientación."
+  },
+  "notice": {
+    "text": "Prototipo de deseño, non é a web oficial da FEGADO. A web oficial está en"
+  },
+  "nav": {
+    "label": "Principal",
+    "about": "Sobre FEGADO",
+    "events": "Eventos",
+    "news": "Novas",
+    "clubs": "Clubs",
+    "transparency": "Transparencia",
+    "contact": "Contacto",
+    "faq": "FAQ’s",
+    "personalArea": "Area Persoal",
+    "openMenu": "Abrir menú",
+    "home": "FEGADO, portada",
+    "whoWeAre": "Quen somos",
+    "disciplines": "Modalidades",
+    "join": "Fedérate",
+    "board": "Xunta directiva",
+    "documents": "Normativa e información oficial",
+    "identity": "Identidade corporativa"
+  },
+  "lang": {
+    "label": "Idioma"
+  },
+  "footer": {
+    "newsletter": "¿Queres enterarte de todas as nosas novidades?",
+    "channel": "Únete ao noso canal",
+    "copyright": "Federación Galega de Orientación",
+    "legal": "Legal",
+    "cookies": "Política de cookies",
+    "legalNotice": "Aviso legal",
+    "privacy": "Política de privacidade",
+    "accessibility": "Accesibilidade"
+  },
+  "search": {
+    "label": "Buscar",
+    "noResults": "Non se atoparon resultados para [SEARCH_TERM]",
+    "oneResult": "[COUNT] resultado para [SEARCH_TERM]",
+    "manyResults": "[COUNT] resultados para [SEARCH_TERM]",
+    "loadMore": "Cargar máis resultados",
+    "clear": "Borrar"
+  },
+  "contactCta": {
+    "title": "Tes algunha dúbida?",
+    "text": "Podes contactar connosco, tentaremos de resolver as túas dúbidas",
+    "button": "Contacta connosco"
+  },
+  "discipline": {
+    "o-pe": "O-Pé",
+    "escolar": "Escolar e Universitario",
+    "mtbo": "MTB-O",
+    "raid": "Raid",
+    "trail-o": "Trail-O",
+    "rogaine": "Rogaine",
+    "sprint": "Sprint",
+    "iniciacion": "Iniciación",
+    "duatlon-o": "Duatlón-O"
+  }
+}

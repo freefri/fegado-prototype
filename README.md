@@ -27,7 +27,12 @@ El buscador de noticias solo funciona con la web generada (`npm run build` y `np
 - `src/content/pages/<idioma>/`: páginas de texto (Sobre FEGADO, preguntas frecuentes) en MDX, una por idioma.
 - `src/content/clubs.yaml`: los clubs, con su logo en `src/assets/images/clubs/`.
 - `src/components/`: piezas de la web; `src/components/ui/` son los componentes de shadcn/ui.
-- `src/i18n/ui.ts`: textos fijos de la web en gallego y castellano.
+- `src/i18n/locales/<idioma>/<área>.json`: textos fijos de la web, un archivo por área (común, portada,
+  novas, eventos…). El gallego es el idioma de origen: define las claves, y lo que falte en castellano
+  se muestra en gallego. `npm run check:translations` (también en el build) falla si una traducción
+  tiene una clave que no existe en gallego o cambia sus `{marcadores}`, y avisa de lo que falta.
+  Las claves se escriben con puntos, `t("nav.about")`, y la primera parte es el bloque del archivo.
+  Un área nueva se añade también al tipo `Source` de `src/i18n/ui.ts`.
 - `src/i18n/routes.ts`: la ruta de cada página en cada idioma; el cambio de idioma la usa para traducir la URL.
 - `src/data/`: enlaces, contacto y registro de imágenes.
 - `src/styles/global.css`: colores, tipografías y variables del tema.

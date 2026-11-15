@@ -1,0 +1,23 @@
+{
+  "contact": {
+    "title": "Contacta con la FEGADO",
+    "intro": "Si necesitas contactar con la Federación Gallega de Orientación, aquí tienes las vías disponibles para hacerlo. Puedes dirigirte directamente según el tipo de consulta o enviar tu mensaje a través de los canales habilitados.",
+    "address": "Dirección",
+    "contact": "Contacto",
+    "presidency": "Presidencia",
+    "name": "Nombre",
+    "namePlaceholder": "Introduce tu nombre completo",
+    "email": "Email",
+    "emailPlaceholder": "Introduce tu email",
+    "subject": "Asunto",
+    "subjectPlaceholder": "Introduce el asunto del mensaje",
+    "message": "Mensaje",
+    "messagePlaceholder": "Déjanos tu mensaje",
+    "termsBefore": "Acepto las",
+    "termsLink": "condiciones legales",
+    "termsAfter": "de uso de este formulario de contacto.",
+    "send": "Enviar",
+    "prototype": "Esto es un prototipo y el formulario no envía mensajes. Escribe a la federación en",
+    "map": "Mapa con la sede de la FEGADO en la Casa do Deporte de Vigo"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "contact": {
+    "title": "Contacta coa FEGADO",
+    "intro": "Se precisas contactar coa Federación Galega de Orientación, aquí tes as vías dispoñibles para facelo. Podes dirixirte directamente segundo o tipo de consulta ou enviar a túa mensaxe a través dos canais habilitados.",
+    "address": "Enderezo",
+    "contact": "Contacto",
+    "presidency": "Presidencia",
+    "name": "Nome",
+    "namePlaceholder": "Introduce o teu nome completo",
+    "email": "Email",
+    "emailPlaceholder": "Introduce o teu email",
+    "subject": "Asunto",
+    "subjectPlaceholder": "Introduce o asunto da mensaxe",
+    "message": "Mensaxe",
+    "messagePlaceholder": "Déixanos a túa mensaxe",
+    "termsBefore": "Acepto as",
+    "termsLink": "condicións legais",
+    "termsAfter": "de uso deste formulario de contacto.",
+    "send": "Enviar",
+    "prototype": "Isto é un prototipo e o formulario non envía mensaxes. Escribe á federación en",
+    "map": "Mapa coa sede da FEGADO na Casa do Deporte de Vigo"
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "eventsPage": {
+    "title": "Eventos",
+    "intro": "Consulta o calendario de eventos da Federación Galega de Orientación e accede á información sobre próximas probas e actividades. Aquí poderás consultar todos os detalles necesarios para participar.",
+    "search": "Busca eventos...",
+    "view": "Vista",
+    "grid": "Ver en tarxetas",
+    "calendar": "Ver no calendario",
+    "club": "Club",
+    "province": "Provincia",
+    "date": "Data",
+    "from": "Desde",
+    "to": "Ata",
+    "discipline": "Modalidade",
+    "type": "Tipo de proba",
+    "more": "Ver máis eventos",
+    "results": "{count} eventos",
+    "noResults": "Non hai eventos que coincidan coa busca e os filtros."
+  },
+  "event": {
+    "posterOf": "Cartel de {title}",
+    "register": "Realiza a túa inscrición",
+    "federated": "Participante federado",
+    "notFederated": "Participante non federado",
+    "deadline": "O prazo de inscrición remata o {date}.",
+    "about": "Sobre a proba"
+  },
+  "calendar": {
+    "title": "{month} de {year}",
+    "months": "Xaneiro,Febreiro,Marzo,Abril,Maio,Xuño,Xullo,Agosto,Setembro,Outubro,Novembro,Decembro",
+    "days": "Luns,Martes,Mércores,Xoves,Venres,Sábado,Domingo",
+    "previous": "Mes anterior",
+    "next": "Mes seguinte"
+  },
+  "eventsCta": {
+    "title": "Leva os eventos contigo",
+    "text": "Sincroniza as probas no teu calendario e mantente ao día da tempada.",
+    "button": "Sincronizar eventos"
+  }
+}

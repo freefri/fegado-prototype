@@ -1,0 +1,30 @@
+{
+  "newsList": {
+    "title": "Novas",
+    "topicTitle": "Novas: {topic}",
+    "intro": "Toda a actividade da Federación Galega de Orientación: competicións, resultados, formación e a actualidade dos clubs e deportistas.",
+    "all": "Todas",
+    "topics": "Filtrar por categoría",
+    "search": "Busca novas...",
+    "page": "Páxina {page} de {total}",
+    "previous": "Anteriores",
+    "next": "Seguintes",
+    "pagination": "Paxinación"
+  },
+  "newsItem": {
+    "back": "Voltar",
+    "attachments": "Adxuntos",
+    "share": "Compartir",
+    "original": "Ver na web actual",
+    "otherLang": "Esta nova está publicada en castelán.",
+    "relatedEvents": "Eventos relacionados",
+    "relatedNews": "Novas relacionadas"
+  },
+  "newsTopic": {
+    "eventos": "Eventos",
+    "resultados": "Resultados",
+    "comunicacion": "Comunicación",
+    "formacion": "Formación",
+    "promocion": "Promoción"
+  }
+}

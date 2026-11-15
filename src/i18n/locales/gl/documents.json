@@ -1,0 +1,9 @@
+{
+  "documents": {
+    "search": "Busca documentos...",
+    "filters": "Filtrar por categoría",
+    "clear": "Borrar todo",
+    "results": "{count} documentos",
+    "noResults": "Non hai documentos que coincidan coa busca e os filtros."
+  }
+}

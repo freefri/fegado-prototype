@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "astro dev",
     "check:images": "node scripts/check-images.mjs",
-    "build": "npm run check:images && astro check && astro build && pagefind --site dist",
+    "check:translations": "node scripts/check-translations.mjs",
+    "build": "npm run check:images && npm run check:translations && astro check && astro build && pagefind --site dist",
     "preview": "astro preview"
   },
   "engines": {

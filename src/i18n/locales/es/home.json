@@ -1,0 +1,45 @@
+{
+  "hero": {
+    "label": "Eventos con inscripción abierta",
+    "deadline": "El plazo de inscripción finaliza en",
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "choose": "Elegir evento",
+    "slide": "Evento"
+  },
+  "countdown": {
+    "days": "Días",
+    "hours": "Horas",
+    "minutes": "Minutos",
+    "seconds": "Segundos"
+  },
+  "events": {
+    "title": "Próximos eventos",
+    "intro1": "Consulta los eventos y competiciones organizados por la Federación Gallega de Orientación a lo largo del año. Accede a la información actualizada sobre pruebas, fechas y ubicaciones, así como a los detalles de participación.",
+    "intro2": "Si formas parte de la comunidad federativa, puedes acceder a la intranet para gestionar inscripciones, resultados y otros trámites relacionados con la actividad deportiva.",
+    "more": "Ver más eventos",
+    "personalArea": "Accede al Área personal",
+    "listLabel": "Lista de próximos eventos",
+    "visit": "Ver el evento",
+    "official": "Evento oficial",
+    "unofficial": "Evento no oficial"
+  },
+  "about": {
+    "title": "Conoce la Federación Gallega de Orientación",
+    "text1": "La orientación es un deporte que se practica en contacto con la naturaleza, combinando desplazamiento y toma de decisiones. La Federación Gallega de Orientación se encarga de su organización en Galicia, coordinando competiciones, modalidades y la actividad de los clubes.",
+    "text2": "En esta sección podrás conocer mejor el funcionamiento de la federación, las diferentes modalidades y cómo participar.",
+    "whoWeAre": "Quiénes somos",
+    "disciplines": "Modalidades",
+    "join": "Federarse",
+    "board": "Junta directiva"
+  },
+  "news": {
+    "title": "Últimas noticias",
+    "intro": "Mantente al día de la actividad de la Federación Gallega de Orientación. Aquí encontrarás noticias, eventos e información relevante sobre competiciones, formación y la actualidad de los clubes y deportistas.",
+    "readMore": "Leer más",
+    "more": "Ver más noticias"
+  },
+  "sponsors": {
+    "label": "Entidades colaboradoras"
+  }
+}

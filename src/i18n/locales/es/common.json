@@ -1,0 +1,65 @@
+{
+  "meta": {
+    "title": "Prototipo · FEGADO · Federación Gallega de Orientación",
+    "description": "Prototipo de diseño de la nueva web pública de la Federación Gallega de Orientación."
+  },
+  "notice": {
+    "text": "Prototipo de diseño, no es la web oficial de la FEGADO. La web oficial está en"
+  },
+  "nav": {
+    "label": "Principal",
+    "about": "Sobre FEGADO",
+    "events": "Eventos",
+    "news": "Noticias",
+    "clubs": "Clubes",
+    "transparency": "Transparencia",
+    "contact": "Contacto",
+    "faq": "Preguntas frecuentes",
+    "personalArea": "Área personal",
+    "openMenu": "Abrir menú",
+    "home": "FEGADO, portada",
+    "whoWeAre": "Quiénes somos",
+    "disciplines": "Modalidades",
+    "join": "Federarse",
+    "board": "Junta directiva",
+    "documents": "Normativa e información oficial",
+    "identity": "Identidad corporativa"
+  },
+  "lang": {
+    "label": "Idioma"
+  },
+  "footer": {
+    "newsletter": "¿Quieres enterarte de todas nuestras novedades?",
+    "channel": "Únete a nuestro canal",
+    "copyright": "Federación Gallega de Orientación",
+    "legal": "Legal",
+    "cookies": "Política de cookies",
+    "legalNotice": "Aviso legal",
+    "privacy": "Política de privacidad",
+    "accessibility": "Accesibilidad"
+  },
+  "search": {
+    "label": "Buscar",
+    "noResults": "No se encontraron resultados para [SEARCH_TERM]",
+    "oneResult": "[COUNT] resultado para [SEARCH_TERM]",
+    "manyResults": "[COUNT] resultados para [SEARCH_TERM]",
+    "loadMore": "Cargar más resultados",
+    "clear": "Borrar"
+  },
+  "contactCta": {
+    "title": "¿Tienes alguna duda?",
+    "text": "Puedes contactar con nosotros, intentaremos resolver tus dudas",
+    "button": "Contacta con nosotros"
+  },
+  "discipline": {
+    "o-pe": "O-Pie",
+    "escolar": "Escolar y Universitario",
+    "mtbo": "MTB-O",
+    "raid": "Raid",
+    "trail-o": "Trail-O",
+    "rogaine": "Rogaine",
+    "sprint": "Sprint",
+    "iniciacion": "Iniciación",
+    "duatlon-o": "Duatlón-O"
+  }
+}

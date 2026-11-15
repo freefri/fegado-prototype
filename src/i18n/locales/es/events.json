@@ -1,0 +1,40 @@
+{
+  "eventsPage": {
+    "title": "Eventos",
+    "intro": "Consulta el calendario de eventos de la Federación Gallega de Orientación y accede a la información sobre próximas pruebas y actividades. Aquí podrás consultar todos los detalles necesarios para participar.",
+    "search": "Busca eventos...",
+    "view": "Vista",
+    "grid": "Ver en tarjetas",
+    "calendar": "Ver en el calendario",
+    "club": "Club",
+    "province": "Provincia",
+    "date": "Fecha",
+    "from": "Desde",
+    "to": "Hasta",
+    "discipline": "Modalidad",
+    "type": "Tipo de prueba",
+    "more": "Ver más eventos",
+    "results": "{count} eventos",
+    "noResults": "No hay eventos que coincidan con la búsqueda y los filtros."
+  },
+  "event": {
+    "posterOf": "Cartel de {title}",
+    "register": "Realiza tu inscripción",
+    "federated": "Participante federado",
+    "notFederated": "Participante no federado",
+    "deadline": "El plazo de inscripción termina el {date}.",
+    "about": "Sobre la prueba"
+  },
+  "calendar": {
+    "title": "{month} de {year}",
+    "months": "Enero,Febrero,Marzo,Abril,Mayo,Junio,Julio,Agosto,Septiembre,Octubre,Noviembre,Diciembre",
+    "days": "Lunes,Martes,Miércoles,Jueves,Viernes,Sábado,Domingo",
+    "previous": "Mes anterior",
+    "next": "Mes siguiente"
+  },
+  "eventsCta": {
+    "title": "Lleva los eventos contigo",
+    "text": "Sincroniza las pruebas en tu calendario y mantente al día de la temporada.",
+    "button": "Sincronizar eventos"
+  }
+}
