@@ -1,0 +1,48 @@
+---
+import { Image } from "astro:assets";
+import { ArrowUpRight } from "@lucide/astro";
+import { aboutPhotos, links } from "@/data/home";
+import { images } from "@/data/images";
+import { getLangFromUrl, useTranslations } from "@/i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const pages = [
+  { label: t("about.whoWeAre"), href: "#" },
+  { label: t("about.disciplines"), href: "#" },
+  { label: t("about.join"), href: links.register },
+  { label: t("about.board"), href: "#" },
+];
+---
+
+<div id="conece" class="mx-auto max-w-[1440px] px-2 md:px-[15px]">
+  <section class="bg-navy-gradient grid items-center gap-9 rounded-lg px-5 py-10 text-white md:gap-12 md:px-10 md:py-[75px] lg:grid-cols-2 xl:grid-cols-[575px_1fr] xl:gap-[75px] xl:px-[75px]">
+    <div class="grid grid-cols-2 items-start gap-[15px]">
+      {aboutPhotos.map((id, index) => (
+        <Image
+          src={images[id].src}
+          alt={images[id].alt[lang]}
+          widths={[280, 560]}
+          sizes="(max-width: 1024px) 45vw, 280px"
+          class:list={["aspect-[280/493] w-full rounded object-cover", index === 1 && "mt-10 md:mt-[75px]"]}
+        />
+      ))}
+    </div>
+    <div>
+      <h2 class="mb-9 max-w-[580px] text-[32px] leading-[1.08] md:text-[44px]">{t("about.title")}</h2>
+      <p class="max-w-[560px] text-[15px] leading-[1.55] font-light text-white/90">{t("about.text1")}</p>
+      <p class="mt-[22px] max-w-[560px] text-[15px] leading-[1.55] font-light text-white/90">{t("about.text2")}</p>
+      <ul class="mt-8 grid max-w-[374px] list-none gap-[7px] p-0">
+        {pages.map((page) => (
+          <li>
+            <a class="flex h-[60px] items-center justify-between rounded-md bg-white px-[15px] text-lg text-chip-ink no-underline hover:bg-chip" href={page.href}>
+              {page.label}
+              <span class="grid size-[30px] place-items-center rounded-full border border-current"><ArrowUpRight class="size-[11px]" /></span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</div>

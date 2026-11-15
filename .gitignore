@@ -9,3 +9,6 @@ Thumbs.db
 # Dependencies and build output, should the prototype grow a toolchain
 node_modules/
 dist/
+
+# Astro
+.astro/

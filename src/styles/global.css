@@ -1,0 +1,125 @@
+@import "tailwindcss";
+@import "@fontsource/roboto-condensed/400.css";
+@import "@fontsource/roboto-condensed/500.css";
+@import "@fontsource/roboto-condensed/600.css";
+@import "@fontsource/source-sans-3/300.css";
+@import "@fontsource/source-sans-3/400.css";
+@import "@fontsource/source-sans-3/600.css";
+
+/*
+ * Colours sampled from the Figma prototype. The navy and blue pairs are the two ends of the
+ * gradients the design uses for its dark bands and primary buttons.
+ */
+:root {
+  --ink: #171717;
+  --muted: #6e6e6e;
+  --ink-soft: #444444;
+  --dark: #252525;
+  --navy-from: #011738;
+  --navy-to: #054065;
+  --navy-line: #013e72;
+  --blue-from: #0075d3;
+  --blue-to: #134482;
+  --blue-border: #4098df;
+  --chip: #e5f1fa;
+  --chip-border: #98c7ed;
+  --chip-ink: #1e3a8a;
+
+  /* shadcn/ui tokens, mapped onto the FEGADO palette so its components follow the design. */
+  --radius: 0.875rem;
+  --background: #ffffff;
+  --foreground: var(--ink);
+  --card: #ffffff;
+  --card-foreground: var(--ink);
+  --popover: #ffffff;
+  --popover-foreground: var(--ink);
+  --primary: var(--blue-to);
+  --primary-foreground: #ffffff;
+  --secondary: var(--chip);
+  --secondary-foreground: var(--chip-ink);
+  --muted-foreground: var(--muted);
+  --accent: var(--chip);
+  --accent-foreground: var(--chip-ink);
+  --destructive: #c62828;
+  --border: var(--blue-border);
+  --input: var(--chip-border);
+  --ring: var(--blue-border);
+}
+
+@theme inline {
+  --font-heading: "Roboto Condensed", system-ui, sans-serif;
+  --font-sans: "Source Sans 3", system-ui, sans-serif;
+
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-ink-soft: var(--ink-soft);
+  --color-dark: var(--dark);
+  --color-navy-from: var(--navy-from);
+  --color-navy-to: var(--navy-to);
+  --color-navy-line: var(--navy-line);
+  --color-blue-from: var(--blue-from);
+  --color-blue-to: var(--blue-to);
+  --color-blue-border: var(--blue-border);
+  --color-chip: var(--chip);
+  --color-chip-border: var(--chip-border);
+  --color-chip-ink: var(--chip-ink);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: calc(var(--radius) - 8px);
+  --radius-md: calc(var(--radius) - 4px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@utility bg-navy-gradient {
+  background-image: linear-gradient(110deg, var(--navy-from), var(--navy-to));
+}
+
+@utility bg-blue-gradient {
+  background-image: linear-gradient(90deg, var(--blue-from), var(--blue-to));
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background font-sans text-base leading-normal text-foreground;
+    /* Faint contour lines like an orienteering map, as in the design. */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='720' height='720' fill='none' stroke='%234098df' stroke-opacity='.09' stroke-width='1.2'%3E%3Cpath d='M-20 140c110-70 190 50 310-10s190-100 310-20 120 60 140 50'/%3E%3Cpath d='M-20 200c120-60 200 60 320 0s200-90 310-10 110 60 130 40'/%3E%3Cpath d='M-20 480c100 50 180-70 310-20s180 130 300 70 100-70 150-50'/%3E%3Cpath d='M-20 540c110 40 190-60 310-10s190 120 310 60 90-60 140-40'/%3E%3Cpath d='M360 310c50-50 150-40 160 25s-60 110-135 85-75-75-25-110z'/%3E%3Cpath d='M335 310c60-75 195-60 205 25s-85 145-170 110-95-85-35-135z'/%3E%3C/svg%3E");
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-heading font-normal leading-tight;
+  }
+
+  :focus-visible {
+    @apply outline-3 outline-offset-2 outline-blue-border;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      transition: none !important;
+      animation: none !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}

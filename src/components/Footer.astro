@@ -1,0 +1,85 @@
+---
+import { Mail, Phone, Send, User } from "@lucide/astro";
+import Logo from "./Logo.astro";
+import SocialIcon from "./SocialIcon.astro";
+import { buttonVariants } from "@/components/ui/button";
+import { contact, links } from "@/data/home";
+import { getLangFromUrl, localizePath, useTranslations } from "@/i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const home = localizePath("/", lang);
+
+const columns = [
+  [
+    { label: t("nav.about"), href: `${home}#conece`, hasMenu: true },
+    { label: t("nav.events"), href: `${home}#eventos` },
+    { label: t("nav.news"), href: `${home}#novas` },
+    { label: t("nav.clubs"), href: links.clubs },
+  ],
+  [
+    { label: t("nav.transparency"), href: links.transparency, hasMenu: true },
+    { label: t("nav.contact"), href: links.contact },
+    { label: t("nav.faq"), href: "#" },
+  ],
+];
+
+const legal = [
+  { label: t("footer.cookies"), href: links.cookies },
+  { label: t("footer.legalNotice"), href: links.legal },
+  { label: t("footer.privacy"), href: links.privacy },
+  { label: t("footer.accessibility"), href: "#" },
+];
+
+const social = ["instagram", "facebook", "x", "youtube"] as const;
+const socialNames = { instagram: "Instagram", facebook: "Facebook", x: "X", youtube: "YouTube" };
+---
+
+<footer class="mx-auto max-w-[1440px] px-2 pb-2 md:px-[15px] md:pb-[15px]">
+  <div class="bg-navy-gradient rounded-lg px-5 pt-10 pb-6 text-white md:px-10 md:pt-14 md:pb-[30px] xl:px-[75px]">
+    <div class="flex items-center justify-between gap-4 border-b border-navy-line pb-5">
+      <Logo class="w-[120px] md:w-[150px]" />
+      <a class={buttonVariants()} href={links.intranet}><User />{t("nav.personalArea")}</a>
+    </div>
+
+    <div class="grid gap-8 border-b border-navy-line pt-[26px] pb-5 md:grid-cols-2 xl:grid-cols-[274px_1fr_186px_186px] xl:gap-x-[38px] xl:gap-y-0">
+      <div>
+        <p class="mb-[26px] text-[17px] leading-relaxed">{t("footer.newsletter")}</p>
+        <a class={buttonVariants({ variant: "white" })} href={links.channel}><Send />{t("footer.channel")}</a>
+      </div>
+
+      <div class="font-light text-white/90">
+        <address class="mb-10 not-italic">
+          {contact.address.map((line) => <>{line}<br /></>)}
+        </address>
+        <a class="mb-2 flex items-center gap-2 no-underline hover:underline" href={contact.phone.href}><Phone class="size-3.5" />{contact.phone.label}</a>
+        <a class="flex items-center gap-2 no-underline hover:underline" href={contact.email.href}><Mail class="size-3.5" />{contact.email.label}</a>
+      </div>
+
+      {columns.map((column) => (
+        <ul class="m-0 list-none p-0">
+          {column.map((item) => (
+            <li>
+              <a href={item.href} class="flex items-center justify-between border-b border-navy-line px-[15px] py-3 text-[15px] no-underline hover:bg-white/5">
+                {item.label}
+                {item.hasMenu && <span aria-hidden="true" class="size-[5px] -translate-y-[2px] rotate-45 border-r-[1.3px] border-b-[1.3px] border-current" />}
+              </a>
+            </li>
+          ))}
+        </ul>
+      ))}
+    </div>
+
+    <div class="flex flex-wrap items-center gap-x-10 gap-y-4 pt-6">
+      <p class="m-0 text-[17px]">{t("footer.copyright")}. 2026</p>
+      <nav aria-label={t("footer.legal")} class="flex flex-wrap gap-x-6 gap-y-2 font-light text-white/85 xl:mx-auto">
+        {legal.map((item) => <a class="no-underline hover:underline" href={item.href}>{item.label}</a>)}
+      </nav>
+      <div class="flex gap-[22px]">
+        {social.map((name) => (
+          <a href="#" aria-label={socialNames[name]}><SocialIcon name={name} /></a>
+        ))}
+      </div>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,134 @@
+---
+import { Image } from "astro:assets";
+import { ArrowUpRight, ChevronLeft, ChevronRight } from "@lucide/astro";
+import { buttonVariants } from "@/components/ui/button";
+import { events } from "@/data/home";
+import { images } from "@/data/images";
+import { getLangFromUrl, useTranslations } from "@/i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const units = [
+  { label: t("countdown.days"), seconds: 86_400 },
+  { label: t("countdown.hours"), seconds: 3_600 },
+  { label: t("countdown.minutes"), seconds: 60 },
+  { label: t("countdown.seconds"), seconds: 1 },
+];
+
+/** First render matches what the countdown script shows on load, so nothing jumps. */
+function split(total: number) {
+  let left = total;
+  return units.map((unit) => {
+    const value = Math.floor(left / unit.seconds);
+    left -= value * unit.seconds;
+    return { ...unit, value: String(value).padStart(2, "0") };
+  });
+}
+---
+
+<div class="mx-auto max-w-[1440px] px-2 md:px-[15px]">
+  <section
+    class="hero relative h-[560px] overflow-hidden rounded-lg bg-navy-from md:h-[643px]"
+    aria-roledescription="carousel"
+    aria-label={t("hero.label")}
+  >
+    {events.map((event, index) => (
+      <article
+        class="slide invisible absolute inset-0 grid place-items-center text-center text-white opacity-0 transition-[opacity,visibility] duration-700 data-[active=true]:visible data-[active=true]:opacity-100"
+        data-active={index === 0 ? "true" : "false"}
+        aria-roledescription="slide"
+        aria-label={`${t("hero.slide")} ${index + 1} / ${events.length}`}
+      >
+        <Image
+          src={images[event.heroImage].src}
+          alt=""
+          widths={[800, 1440, 1600]}
+          sizes="(max-width: 1440px) 100vw, 1410px"
+          loading={index === 0 ? "eager" : "lazy"}
+          class="absolute inset-0 size-full object-cover"
+        />
+        <div class="absolute inset-0 bg-[rgb(0_10_30/0.42)]" aria-hidden="true"></div>
+        <div class="relative px-5 md:px-[70px]">
+          <h2 class="mx-auto max-w-[620px] text-[26px] leading-[1.12] [text-shadow:0_1px_8px_rgb(0_0_0/0.3)] md:text-left md:text-[34px]">
+            {event.title}
+          </h2>
+          <p class="mt-2.5 mb-3.5 text-[17px]">{t("hero.deadline")}</p>
+          <div class="countdown mb-[26px] flex justify-center gap-1.5 md:gap-[18px]" data-seconds-left={event.registrationSecondsLeft}>
+            {split(event.registrationSecondsLeft).map((unit) => (
+              <div class="min-w-[60px] md:min-w-[74px]">
+                <b class="block font-heading text-[40px] leading-none font-semibold tabular-nums md:text-[54px]" data-unit={unit.seconds}>{unit.value}</b>
+                <span class="text-sm md:text-[17px]">{unit.label}</span>
+              </div>
+            ))}
+          </div>
+          <a class={buttonVariants()} href={event.href}>{t("events.visit")}<ArrowUpRight /></a>
+        </div>
+      </article>
+    ))}
+
+    <button type="button" class="hero-prev absolute top-1/2 left-2.5 z-10 hidden -translate-y-1/2 cursor-pointer p-3.5 text-white md:block" aria-label={t("hero.previous")}>
+      <ChevronLeft class="size-4" />
+    </button>
+    <button type="button" class="hero-next absolute top-1/2 right-2.5 z-10 hidden -translate-y-1/2 cursor-pointer p-3.5 text-white md:block" aria-label={t("hero.next")}>
+      <ChevronRight class="size-4" />
+    </button>
+    <div class="absolute inset-x-0 bottom-[22px] z-10 flex justify-center gap-2" role="group" aria-label={t("hero.choose")}>
+      {events.map((_, index) => (
+        <button
+          type="button"
+          class="dot size-[9px] cursor-pointer rounded-full border border-white p-0 aria-[current=true]:bg-white"
+          aria-label={`${t("hero.slide")} ${index + 1}`}
+          aria-current={index === 0 ? "true" : "false"}
+          data-index={index}
+        ></button>
+      ))}
+    </div>
+  </section>
+</div>
+
+<script>
+  const ROTATE_MS = 8000;
+
+  for (const hero of document.querySelectorAll<HTMLElement>(".hero")) {
+    const slides = [...hero.querySelectorAll<HTMLElement>(".slide")];
+    const dots = [...hero.querySelectorAll<HTMLButtonElement>(".dot")];
+    let current = 0;
+    let timer: number | undefined;
+
+    const show = (index: number) => {
+      current = (index + slides.length) % slides.length;
+      slides.forEach((slide, i) => (slide.dataset.active = String(i === current)));
+      dots.forEach((dot, i) => dot.setAttribute("aria-current", String(i === current)));
+      window.clearInterval(timer);
+      timer = window.setInterval(() => show(current + 1), ROTATE_MS);
+    };
+
+    hero.querySelector(".hero-prev")?.addEventListener("click", () => show(current - 1));
+    hero.querySelector(".hero-next")?.addEventListener("click", () => show(current + 1));
+    dots.forEach((dot, i) => dot.addEventListener("click", () => show(i)));
+    show(0);
+  }
+
+  // The design's events are already past, so each deadline counts from page load to keep the
+  // countdown live in the prototype. Real events will carry their actual deadline.
+  const loadedAt = Date.now();
+  const counters = [...document.querySelectorAll<HTMLElement>(".countdown")].map((el) => ({
+    deadline: loadedAt + Number(el.dataset.secondsLeft) * 1000,
+    cells: [...el.querySelectorAll<HTMLElement>("[data-unit]")],
+  }));
+
+  const tick = () => {
+    for (const { deadline, cells } of counters) {
+      let left = Math.max(0, Math.floor((deadline - Date.now()) / 1000));
+      for (const cell of cells) {
+        const size = Number(cell.dataset.unit);
+        const value = Math.floor(left / size);
+        left -= value * size;
+        cell.textContent = String(value).padStart(2, "0");
+      }
+    }
+  };
+  tick();
+  window.setInterval(tick, 1000);
+</script>

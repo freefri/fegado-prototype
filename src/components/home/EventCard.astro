@@ -1,0 +1,33 @@
+---
+import { Image } from "astro:assets";
+import { ArrowUpRight, Trophy, User } from "@lucide/astro";
+import { badgeVariants } from "@/components/ui/badge";
+import { buttonVariants } from "@/components/ui/button";
+import type { HomeEvent } from "@/data/home";
+import { images } from "@/data/images";
+import { getLangFromUrl, useTranslations } from "@/i18n/utils";
+import { posterDate } from "@/lib/format";
+
+interface Props {
+  event: HomeEvent;
+}
+
+const { event } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const poster = images[event.poster];
+---
+
+<article class="flex snap-start flex-col rounded-[14px] border border-blue-border bg-white p-[21px] transition-shadow hover:shadow-[0_12px_32px_rgb(19_68_130/0.14)]">
+  <div class="relative mb-[22px] aspect-[356/430] overflow-hidden rounded-xl">
+    <Image src={poster.src} alt={poster.alt[lang]} widths={[360, 720]} sizes="360px" class="size-full object-cover" />
+    <span class="absolute top-0 left-0 rounded-br-[14px] bg-white px-[18px] py-2 text-[13px]">{posterDate(event.date, lang)}</span>
+    <span class={badgeVariants({ className: "absolute top-3 right-3" })}>{event.discipline[lang]}</span>
+  </div>
+  <div class="mb-2.5 flex flex-wrap gap-x-[18px] gap-y-1.5 text-xs text-ink-soft">
+    <span class="inline-flex items-center gap-1.5"><User class="size-3" />{event.club}</span>
+    <span class="inline-flex items-center gap-1.5"><Trophy class="size-3" />{event.official ? t("events.official") : t("events.unofficial")}</span>
+  </div>
+  <h3 class="mb-[26px] text-2xl leading-[1.25]">{event.title}</h3>
+  <a class={buttonVariants({ className: "mt-auto self-start" })} href={event.href}>{t("events.visit")}<ArrowUpRight /></a>
+</article>

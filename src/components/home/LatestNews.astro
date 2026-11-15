@@ -1,0 +1,36 @@
+---
+import { Image } from "astro:assets";
+import NewsCard from "./NewsCard.astro";
+import { buttonVariants } from "@/components/ui/button";
+import { links, news, sponsors } from "@/data/home";
+import { images } from "@/data/images";
+import { getLangFromUrl, useTranslations } from "@/i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<section id="novas" class="mx-auto max-w-[1440px] px-4 pt-[72px] md:px-10 md:pt-[125px] xl:px-[75px]">
+  <div class="mb-10 grid gap-3 md:grid-cols-2 md:gap-10 xl:grid-cols-[1fr_560px]">
+    <h2 class="text-4xl md:text-[46px]">{t("news.title")}</h2>
+    <p class="leading-[1.55] font-light text-muted">{t("news.intro")}</p>
+  </div>
+  <div class="grid gap-[30px] md:grid-cols-2 xl:grid-cols-3">
+    {news.map((item, index) => (
+      <div class:list={["grid", index === 2 && "md:hidden xl:grid"]}>
+        <NewsCard item={item} />
+      </div>
+    ))}
+  </div>
+  <div class="mt-[30px] flex justify-center">
+    <a class={buttonVariants({ variant: "dark" })} href={links.news}>{t("news.more")}</a>
+  </div>
+
+  <ul aria-label={t("sponsors.label")} class="m-0 flex list-none flex-wrap justify-center gap-[15px] p-0 pt-[72px] pb-10 md:pt-[166px] md:pb-[72px]">
+    {sponsors.map((id) => (
+      <li class="grid h-[110px] w-[calc(50%-8px)] place-items-center rounded-md border border-blue-border bg-white p-[18px] sm:h-[148px] sm:w-[205px] sm:p-[26px]">
+        <Image src={images[id].src} alt={images[id].alt[lang]} class="max-h-[72px] w-auto max-w-full object-contain sm:max-h-[94px]" />
+      </li>
+    ))}
+  </ul>
+</section>

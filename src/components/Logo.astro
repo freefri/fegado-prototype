@@ -1,0 +1,17 @@
+---
+import { Image } from "astro:assets";
+import { images } from "@/data/images";
+import { getLangFromUrl, localizePath, useTranslations } from "@/i18n/utils";
+import { cn } from "@/lib/utils";
+
+interface Props {
+  class?: string;
+}
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<a href={localizePath("/", lang)} aria-label={t("nav.home")} class={cn("block shrink-0", Astro.props.class)}>
+  <Image src={images.logo.src} alt={images.logo.alt[lang]} class="h-auto w-full" />
+</a>

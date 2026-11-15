@@ -1,0 +1,10 @@
+---
+import { getLangFromUrl, useTranslations } from "@/i18n/utils";
+import { links } from "@/data/home";
+
+const t = useTranslations(getLangFromUrl(Astro.url));
+---
+
+<p class="m-0 bg-navy-from px-4 py-2 text-center text-[13px] text-white">
+  {t("notice.text")} <a class="text-chip-border underline" href={links.live}>fegado.es</a>.
+</p>

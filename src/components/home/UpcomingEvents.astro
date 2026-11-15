@@ -1,0 +1,31 @@
+---
+import { ArrowUpRight } from "@lucide/astro";
+import EventCard from "./EventCard.astro";
+import { buttonVariants } from "@/components/ui/button";
+import { links, upcomingEvents } from "@/data/home";
+import { getLangFromUrl, useTranslations } from "@/i18n/utils";
+
+const t = useTranslations(getLangFromUrl(Astro.url));
+---
+
+<section
+  id="eventos"
+  class="mx-auto grid max-w-[1440px] items-center gap-10 py-16 pl-4 md:py-[112px] md:pl-10 xl:grid-cols-[395px_1fr] xl:gap-[65px] xl:pb-32 xl:pl-[75px]"
+>
+  <div class="max-w-[640px] pr-4">
+    <h2 class="mb-[30px] text-4xl md:text-[46px]">{t("events.title")}</h2>
+    <p class="mb-[22px] leading-relaxed font-light text-muted">{t("events.intro1")}</p>
+    <p class="mb-[22px] leading-relaxed font-light text-muted">{t("events.intro2")}</p>
+    <div class="mt-[18px] flex flex-wrap gap-[15px]">
+      <a class={buttonVariants({ variant: "dark" })} href={links.events}>{t("events.more")}</a>
+      <a class={buttonVariants()} href={links.intranet}>{t("events.personalArea")}<ArrowUpRight /></a>
+    </div>
+  </div>
+  <div
+    class="flex snap-x snap-mandatory gap-[30px] overflow-x-auto pt-0.5 pr-[30px] pb-3 [scrollbar-width:thin] [&>*]:shrink-0 [&>*]:basis-[82vw] sm:[&>*]:basis-[400px]"
+    tabindex="0"
+    aria-label={t("events.listLabel")}
+  >
+    {upcomingEvents.map((event) => <EventCard event={event} />)}
+  </div>
+</section>

@@ -1,0 +1,35 @@
+{
+  "name": "fegado-prototype",
+  "private": true,
+  "type": "module",
+  "description": "Prototipo de la web pública de la FEGADO a partir del diseño de Nuria Oujo Míguez",
+  "scripts": {
+    "dev": "astro dev",
+    "check:images": "node scripts/check-images.mjs",
+    "build": "npm run check:images && astro check && astro build",
+    "preview": "astro preview"
+  },
+  "engines": {
+    "node": ">=22.23.4"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.12",
+    "@astrojs/react": "^7.1.9",
+    "@fontsource/roboto-condensed": "^5.3.0",
+    "@fontsource/source-sans-3": "^5.3.1",
+    "@lucide/astro": "^1.73.0",
+    "@radix-ui/react-slot": "^1.5.0",
+    "@tailwindcss/vite": "^4.3.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "astro": "^7.4.12",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.73.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "tailwind-merge": "^3.7.0",
+    "tailwindcss": "^4.3.5",
+    "typescript": "^6.0.3"
+  }
+}

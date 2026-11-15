@@ -1,0 +1,69 @@
+---
+import { Menu, User } from "@lucide/astro";
+import Logo from "./Logo.astro";
+import LanguageSwitch from "./LanguageSwitch.astro";
+import { buttonVariants } from "@/components/ui/button";
+import { links } from "@/data/home";
+import { getLangFromUrl, localizePath, useTranslations } from "@/i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const home = localizePath("/", lang);
+
+const nav = [
+  { label: t("nav.about"), href: `${home}#conece`, hasMenu: true },
+  { label: t("nav.events"), href: `${home}#eventos` },
+  { label: t("nav.news"), href: `${home}#novas` },
+  { label: t("nav.clubs"), href: links.clubs },
+  { label: t("nav.transparency"), href: links.transparency, hasMenu: true },
+  { label: t("nav.contact"), href: links.contact },
+];
+---
+
+<header class="site-header relative z-20">
+  <div class="mx-auto flex h-[76px] max-w-[1440px] items-center gap-6 px-4 md:h-[93px] md:px-10 xl:px-[75px]">
+    <Logo class="w-[120px] md:w-[150px]" />
+
+    <nav
+      id="main-nav"
+      aria-label={t("nav.label")}
+      class="absolute inset-x-0 top-full hidden flex-col bg-white px-4 pt-3 pb-5 shadow-lg data-[open=true]:flex md:px-10 lg:static lg:mx-auto lg:flex lg:flex-row lg:gap-1 lg:bg-transparent lg:p-0 lg:shadow-none"
+    >
+      {nav.map((item) => (
+        <a
+          href={item.href}
+          class="rounded-full px-[15px] py-[9px] text-[15px] no-underline transition-colors hover:bg-chip hover:text-chip-ink"
+        >
+          {item.label}
+          {item.hasMenu && <span aria-hidden="true" class="ml-2 inline-block size-[5px] -translate-y-[3px] rotate-45 border-r-[1.3px] border-b-[1.3px] border-current" />}
+        </a>
+      ))}
+      <LanguageSwitch class="mt-3 px-[15px] lg:hidden" />
+    </nav>
+
+    <div class="ml-auto hidden items-center gap-5 lg:flex">
+      <LanguageSwitch />
+      <a class={buttonVariants()} href={links.intranet}><User />{t("nav.personalArea")}</a>
+    </div>
+
+    <button
+      type="button"
+      class="menu-toggle ml-auto cursor-pointer p-2 text-ink lg:hidden"
+      aria-controls="main-nav"
+      aria-expanded="false"
+      aria-label={t("nav.openMenu")}
+    >
+      <Menu class="size-[26px]" />
+    </button>
+  </div>
+</header>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>(".menu-toggle");
+  const nav = document.getElementById("main-nav");
+  toggle?.addEventListener("click", () => {
+    const open = nav?.dataset.open !== "true";
+    if (nav) nav.dataset.open = String(open);
+    toggle.setAttribute("aria-expanded", String(open));
+  });
+</script>

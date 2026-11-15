@@ -1,0 +1,29 @@
+---
+// Lucide no longer ships brand icons, so these are drawn in the same outline style.
+interface Props {
+  name: "instagram" | "facebook" | "x" | "youtube";
+  class?: string;
+}
+
+const { name, class: className = "size-4" } = Astro.props;
+---
+
+<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" aria-hidden="true" class={className}>
+  {name === "instagram" && (
+    <>
+      <rect x="1.5" y="1.5" width="13" height="13" rx="3.5" />
+      <circle cx="8" cy="8" r="3" />
+      <circle cx="11.8" cy="4.2" r=".8" fill="currentColor" stroke="none" />
+    </>
+  )}
+  {name === "facebook" && (
+    <path d="M9.5 15V9h2l.4-2.5H9.5V5c0-.7.3-1.2 1.3-1.2H12V1.6A15 15 0 0 0 10.3 1.5C8.4 1.5 7 2.6 7 4.7v1.8H5V9h2v6" />
+  )}
+  {name === "x" && <path d="M2 2l12 12M14 2 2 14" stroke-linecap="round" />}
+  {name === "youtube" && (
+    <>
+      <rect x="1.5" y="3" width="13" height="10" rx="3" />
+      <path d="M6.5 5.8v4.4L10.3 8z" fill="currentColor" stroke="none" />
+    </>
+  )}
+</svg>
