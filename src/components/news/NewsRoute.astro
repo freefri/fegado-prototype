@@ -7,4 +7,4 @@ type Props = NewsRouteProps;
 const props = Astro.props;
 ---
 
-{props.kind === "item" ? <NewsItem entry={props.entry} /> : <NewsList {...props} />}
+{props.kind === "item" ? <NewsItem entry={props.entry} related={props.related} /> : <NewsList {...props} />}

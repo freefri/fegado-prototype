@@ -4,45 +4,45 @@ import NewsCard from "./NewsCard.astro";
 import Search from "./Search.astro";
 import Base from "@/layouts/Base.astro";
 import { getLangFromUrl, useTranslations } from "@/i18n/utils";
-import { newsListPath, type NewsEntry } from "@/lib/news";
+import { newsTopics, type NewsTopic } from "@/data/taxonomy";
+import { categoryLabel, newsListPath, type NewsEntry } from "@/lib/news";
 import { cn } from "@/lib/utils";
 
 interface Props {
   entries: NewsEntry[];
   page: number;
   totalPages: number;
-  years: number[];
-  year?: number;
+  topic?: NewsTopic;
 }
 
-const { entries, page, totalPages, years, year } = Astro.props;
+const { entries, page, totalPages, topic } = Astro.props;
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
-const title = year ? t("newsList.yearTitle", { year }) : t("newsList.title");
-const pageHref = (target: number) => newsListPath(lang, { year, page: target });
+const title = topic ? t("newsList.topicTitle", { topic: categoryLabel(topic, t) }) : t("news.title");
+const pageHref = (target: number) => newsListPath(lang, { topic, page: target });
 
 // Around the current page plus first and last, so 140+ pages stay a short row.
 const shown = [...new Set([1, page - 2, page - 1, page, page + 1, page + 2, totalPages])]
   .filter((n) => n >= 1 && n <= totalPages)
   .sort((a, b) => a - b);
 
-const tab = "rounded-full border border-chip-border px-3.5 py-1.5 text-sm no-underline transition-colors hover:bg-chip";
-const activeTab = "border-chip-ink bg-chip-ink text-white hover:bg-chip-ink";
+const tab = "rounded-full border border-chip-ink px-3 py-1 text-[13px] text-chip-ink no-underline transition-colors hover:bg-chip";
+const activeTab = "bg-chip-ink text-white hover:bg-chip-ink";
 ---
 
 <Base title={`${title} · FEGADO`}>
-  <section class="mx-auto max-w-[1440px] px-4 pt-12 pb-20 md:px-10 md:pt-[72px] xl:px-[75px]">
-    <h1 class="mb-6 text-[40px] md:text-[56px]">{title}</h1>
-    <p class="mb-10 max-w-[640px] leading-relaxed font-light text-muted">{t("newsList.intro")}</p>
+  <section class="mx-auto max-w-[1440px] px-4 pt-10 pb-20 md:px-10 md:pt-14 xl:px-[75px]">
+    <h1 class="mb-6 text-[34px] md:text-[44px]">{title}</h1>
+    <p class="mb-8 max-w-[560px] text-[15px] leading-[1.55] font-light text-ink-soft">{t("newsList.intro")}</p>
 
-    <Search />
-
-    <nav aria-label={t("newsList.years")} class="mb-10 flex flex-wrap gap-2">
-      <a href={newsListPath(lang)} class={cn(tab, !year && activeTab)} aria-current={!year ? "page" : undefined}>{t("newsList.all")}</a>
-      {years.map((y) => (
-        <a href={newsListPath(lang, { year: y })} class={cn(tab, y === year && activeTab)} aria-current={y === year ? "page" : undefined}>{y}</a>
+    <nav aria-label={t("newsList.topics")} class="mb-4 flex flex-wrap gap-2">
+      <a href={newsListPath(lang)} class={cn(tab, !topic && activeTab)} aria-current={!topic ? "page" : undefined}>{t("newsList.all")}</a>
+      {newsTopics.map((key) => (
+        <a href={newsListPath(lang, { topic: key })} class={cn(tab, key === topic && activeTab)} aria-current={key === topic ? "page" : undefined}>{categoryLabel(key, t)}</a>
       ))}
     </nav>
+
+    <Search />
 
     <div class="grid gap-[30px] md:grid-cols-2 xl:grid-cols-3">
       {entries.map((entry) => <NewsCard entry={entry} />)}

@@ -10,6 +10,7 @@ attachments:
     url: "https://intranet.fegado.es/intranet/media/attachments/file/71e/6ae8302d00-listado-de-inscriptos-mtbo.pdf"
   - title: "Inscriptos 6ª Prueba Sprint"
     url: "https://intranet.fegado.es/intranet/media/attachments/file/685/6ae8302d01-sprint-a-rua-2026-listado-de-inscriptos.pdf"
+categories: ["eventos","mtbo"]
 ---
 
 Están publicados los listados de inscriptos de la prueba de MTB-O y de la de Sprint que se celebrarán el 7 de noviembre en A Rúa (Ourense), en cada uno de los eventos correspondientes.

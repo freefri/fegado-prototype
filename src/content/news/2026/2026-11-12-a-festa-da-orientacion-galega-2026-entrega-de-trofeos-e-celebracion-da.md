@@ -14,6 +14,7 @@ attachments:
     url: "https://www.oreplay.es/competitions/e15a9afa-4ace-4e66-a7d0-fcbd495f65bf/e1991bdf-ef27-4c2c-98c4-ecb0f810860f"
   - title: "RANKING TRAIL-O 2026"
     url: "https://intranet.fegado.es/intranet/media/attachments/file/eda/6af62104cc-6a421ca305-ligagallega2026_trailo.pdf"
+categories: ["eventos","mtbo"]
 ---
 
 O vindeiro 28 de novembro, ao remate do Campionato Galego de Relevos, celebraremos a Festa da Orientación Galega 2026, cunha xornada dedicada a recoñecer os éxitos e compartir un momento de encontro entre toda a familia da orientación.

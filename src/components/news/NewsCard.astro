@@ -6,7 +6,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { images } from "@/data/images";
 import { getLangFromUrl, useTranslations } from "@/i18n/utils";
 import { metaDate } from "@/lib/format";
-import { excerpt, newsItemPath, type NewsEntry } from "@/lib/news";
+import { categoryLabel, excerpt, newsItemPath, type NewsEntry } from "@/lib/news";
 
 interface Props {
   entry: NewsEntry;
@@ -38,7 +38,7 @@ const href = newsItemPath(lang, entry);
     )}
     {data.categories.length > 0 && (
       <div class="absolute top-3 right-3 flex gap-1">
-        {data.categories.map((category) => <span class={badgeVariants()}>{category}</span>)}
+        {data.categories.map((category) => <span class={badgeVariants()}>{categoryLabel(category, t)}</span>)}
       </div>
     )}
   </div>

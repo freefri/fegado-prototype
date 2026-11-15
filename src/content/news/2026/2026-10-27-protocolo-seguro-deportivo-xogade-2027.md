@@ -14,6 +14,7 @@ attachments:
     url: "https://intranet.fegado.es/intranet/media/attachments/file/880/6ae11db374-infografia_surne_25_27.pdf"
   - title: "Seguro Deportivo Xogade 2027"
     url: "https://fegaxa.org/protocolo-seguro-deportivo-xogade-2027_-actualizado/"
+categories: ["promocion","escolar"]
 ---
 
 Informase que a partir do (23/10/2026) se actualizó tanto a póliza como o documento de protocolo. Por todo iso publicase un novo protocolo de actuación, a póliza e inforgrafía.

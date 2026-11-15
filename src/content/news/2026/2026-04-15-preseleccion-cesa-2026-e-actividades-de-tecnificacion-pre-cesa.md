@@ -8,7 +8,7 @@ legacyUrl: "https://fegado.es/news/view/hf3weu71mhng/"
 attachments:
   - title: "PRESELECCIÓN CESA 2026"
     url: "https://intranet.fegado.es/intranet/media/attachments/file/c29/69df9f6185-preseleccion-cesa-2026_asinado.pdf"
-categories: ["Formación", "Comunicados"]
+categories: ["formacion", "comunicacion"]
 ---
 
 Publicamos unha primeira listaxe de rapaces e rapazas preseleccionados/as que consideramos que teñen a continuidade necesaria e os coñecementos básicos como para loitar por unha das 24 prazas na SELECCIÓN GALEGA que disputará o CESA 2026 no nas datas 19, 20, 21 e 22 de xuño en Barcarrota e Xerez de los Caballeros (Badajoz). No é unha listaxe pechada, así que estaremos atentos á evolución de outros rapaces e rapazas que teñen participado nos CECEOS ou en actividades de promoción ou escolas deportivas dos seus clubs.

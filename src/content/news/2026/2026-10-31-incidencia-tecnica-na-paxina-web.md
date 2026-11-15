@@ -5,6 +5,7 @@ author: "FE.GA.DO"
 lang: gl
 legacyId: "mp462ckji7zd"
 legacyUrl: "https://fegado.es/news/view/mp462ckji7zd/"
+categories: ["comunicacion"]
 ---
 
 Informamos ás persoas usuarias de que, debido a unha incidencia técnica, durante os próximos días algúns contidos e noticias da nosa páxina web poderán presentar alteracións na visualización dos textos, especialmente no que respecta ás tildes e a determinados caracteres.

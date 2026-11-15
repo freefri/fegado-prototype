@@ -1,0 +1,43 @@
+---
+// A news item or event in the sidebar of an article: thumbnail, tags, title and meta line.
+import { Image } from "astro:assets";
+import { Calendar, User } from "@lucide/astro";
+import { badgeVariants } from "@/components/ui/badge";
+import { images, type ImageId } from "@/data/images";
+import { getLangFromUrl } from "@/i18n/utils";
+import { metaDate } from "@/lib/format";
+
+interface Props {
+  href: string;
+  title: string;
+  date: Date;
+  author?: string;
+  image?: ImageId;
+  tags: string[];
+  /** Events link to their page on the live site. */
+  external?: boolean;
+}
+
+const { href, title, date, author, image, tags, external } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+---
+
+<li class="relative flex gap-4">
+  <div class="grid size-[94px] shrink-0 place-items-center overflow-hidden rounded-md bg-chip">
+    {image ? (
+      <Image src={images[image].src} alt="" widths={[94, 188]} sizes="94px" class="size-full object-cover" />
+    ) : (
+      <Image src={images.logo.src} alt="" class="h-auto w-[60%]" />
+    )}
+  </div>
+  <div class="min-w-0">
+    {tags.length > 0 && (
+      <div class="mb-1.5 flex flex-wrap gap-1">{tags.map((tag) => <span class={badgeVariants()}>{tag}</span>)}</div>
+    )}
+    <a href={href} class="line-clamp-2 font-heading text-lg leading-snug no-underline after:absolute after:inset-0 hover:underline" target={external ? "_blank" : undefined} rel={external ? "noopener" : undefined}>{title}</a>
+    <p class="mt-1.5 flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-ink-soft">
+      <span class="inline-flex items-center gap-1"><Calendar class="size-3" />{metaDate(date, lang)}</span>
+      {author && <span class="inline-flex items-center gap-1"><User class="size-3" />{author}</span>}
+    </p>
+  </div>
+</li>

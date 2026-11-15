@@ -16,7 +16,7 @@ attachments:
     url: "https://intranet.fegado.es/intranet/media/attachments/file/010/69e15aebf4-grof-26-indicaciones-sobre-cronometraje-y-salida.pdf"
 image: "eventoObjetivoFene"
 imagePosition: "50% 42%"
-categories: ["Eventos", "Raid"]
+categories: ["eventos", "raid"]
 ---
 
 Se publican los Raod Book de las categorias 3.0 - 2+1 y categoria Orienta Raid. Tambien se adjunta la información necesaria para las asistencias.

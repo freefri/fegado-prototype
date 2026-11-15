@@ -14,6 +14,7 @@ attachments:
     url: "https://intranet.fegado.es/intranet/media/attachments/file/1e1/6aeba7e29f-xunta-directiva-2026-2030.pdf"
   - title: "Acta Constitución Asamblea"
     url: "https://intranet.fegado.es/intranet/media/attachments/file/849/6aeb8728c0-acta-constitucio-n-asamblea-y-votacio-n-presidencia_signed-1.pdf"
+categories: ["comunicacion"]
 ---
 
 El 18 de octubre se celebraron las elecciones a la presidencia de la Federación Gallega de Orientación con la reunión de la nueva Asamblea en sesión constitutiva.

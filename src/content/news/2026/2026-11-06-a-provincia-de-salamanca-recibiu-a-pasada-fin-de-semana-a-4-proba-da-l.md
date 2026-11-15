@@ -5,6 +5,7 @@ author: "FE.GA.DO"
 lang: gl
 legacyId: "4zu2qc1sxoio"
 legacyUrl: "https://fegado.es/news/view/4zu2qc1sxoio/"
+categories: ["eventos","raid"]
 ---
 
 A pasada fin de semana, as localidades de Béjar e Calendario (Salamanca) acolleron o [**I Raid de Aventura Tierras Vettonas**](https://extremaduraraid.com/i-raid-tierras-vettonas/), a penúltima proba da Liga Española de Raids de Aventura desta tempada.

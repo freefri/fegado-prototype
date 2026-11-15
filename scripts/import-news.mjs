@@ -3,6 +3,7 @@
 //   node scripts/import-news.mjs --since 2026        news published from 2026 on
 //   node scripts/import-news.mjs --all               the whole archive
 //   node scripts/import-news.mjs --since 2026 --force  rewrite files that already exist
+//   node scripts/import-news.mjs --categorize        guess categories for files without them
 //
 // Downloaded pages are cached in .cache/import/, so re-running only fetches what is new. The live
 // site is the source until a database export is available; only `fetchPage` would change then.
@@ -19,9 +20,10 @@ const PAUSE_MS = 400;
 const args = process.argv.slice(2);
 const all = args.includes("--all");
 const force = args.includes("--force");
+const categorize = args.includes("--categorize");
 const since = all ? 0 : Number(args[args.indexOf("--since") + 1]);
-if (!all && !since) {
-  console.error("Usage: node scripts/import-news.mjs (--since <year> | --all) [--force]");
+if (!all && !since && !categorize) {
+  console.error("Usage: node scripts/import-news.mjs (--since <year> | --all) [--force] | --categorize");
   process.exit(1);
 }
 
@@ -116,6 +118,48 @@ function guessLang(text) {
   return es > gl ? "es" : "gl";
 }
 
+// The live site has no categories, so a first guess comes from the words of the title and the
+// opening of the text. Keys match src/data/taxonomy.ts; the first topic that matches wins.
+const TOPICS = [
+  ["comunicacion", /\b(asemblea|asamblea|contas|cuentas|dietas|eleccion|elecci|presidenta?\b|xunta directiva|junta directiva|circular|convocatoria|licenz|licenc|incidencia|aviso)/],
+  ["resultados", /\b(resultad|clasificac|podio|medalla|campio[an]s?\b.*\b(acad|logr|conqu)|gaña|gana)/],
+  ["formacion", /\b(curso|formaci|tecnificac|clinic|adestramento|entrenamiento|concentraci|xuices|jueces|cartograf)/],
+  ["eventos", /\b(proba|prueba|liga|campionato|campeonato|inscrici|inscripci|inscrit|inscript|horas de saida|horarios|salidas|evento|trofeo|road ?book)/],
+  ["promocion", /\b(promoci|escola|colexio|colegio|iniciaci|divulga|xogade|bautismo)/],
+];
+const DISCIPLINES = [
+  ["mtbo", /(mtb-?o|\bbici)/],
+  ["trail-o", /\btrail-?o\b/],
+  ["rogaine", /\brogain/],
+  ["raid", /\braid/],
+  ["escolar", /\b(escolar|universitari|xogade)/],
+  ["o-pe", /\b(o-?p[eé]|o-?pie|sprint)\b/],
+];
+
+// The title says what a news item is about; the body is only read when the title matches nothing.
+function guessCategories(title, body) {
+  const texts = [title, body.slice(0, 800)].map((text) => text.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, ""));
+  const find = (rules) => texts.map((text) => rules.find(([, pattern]) => pattern.test(text))?.[0]).find(Boolean);
+  const topic = find(TOPICS) ?? "comunicacion";
+  const discipline = find(DISCIPLINES);
+  return discipline ? [topic, discipline] : [topic];
+}
+
+/** Adds guessed categories to news files that have none, without downloading anything. */
+function categorizeExisting() {
+  let changed = 0;
+  for (const file of existingIds().values()) {
+    const content = readFileSync(file, "utf8");
+    const [, frontmatter, body] = content.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/) ?? [];
+    if (frontmatter === undefined || /^categories:/m.test(frontmatter)) continue;
+    const title = frontmatter.match(/^title: (.*)$/m)?.[1] ?? "";
+    const categories = guessCategories(title, body);
+    writeFileSync(file, `---\n${frontmatter}\ncategories: ${yaml(categories)}\n---\n${body}`);
+    changed++;
+  }
+  console.log(`${changed} news categorized`);
+}
+
 function slugify(text) {
   const slug = text
     .toLowerCase()
@@ -201,6 +245,9 @@ async function main() {
       ...(attachments.length
         ? ["attachments:", ...attachments.map((a) => `  - title: ${yaml(a.title)}\n    url: ${yaml(a.url)}`)]
         : []),
+      ...(edited.lines.some((line) => line.startsWith("categories:"))
+        ? []
+        : [`categories: ${yaml(guessCategories(item.title, markdown))}`]),
       ...edited.lines,
       "---",
     ].join("\n");
@@ -213,7 +260,7 @@ async function main() {
   console.log(`\n${written} news written to src/content/news/`);
 }
 
-main().catch((error) => {
+(categorize ? Promise.resolve(categorizeExisting()) : main()).catch((error) => {
   console.error(error);
   process.exit(1);
 });

@@ -2,6 +2,7 @@ import { defineCollection } from "astro:content";
 import { file, glob } from "astro/loaders";
 import { z } from "astro/zod";
 import { documentCategoryKeys } from "@/data/documents";
+import { disciplines, newsCategories } from "@/data/taxonomy";
 import { clubLogos, images, type ImageId } from "@/data/images";
 
 const imageId = z
@@ -24,11 +25,9 @@ const news = defineCollection({
     attachments: z.array(z.object({ title: z.string(), url: z.url() })).default([]),
     image: imageId.optional(),
     imagePosition: z.string().optional(),
-    categories: z.array(z.string()).default([]),
+    categories: z.array(z.enum(newsCategories)).default([]),
   }),
 });
-
-export const disciplines = ["o-pe", "escolar", "mtbo", "raid", "trail-o", "rogaine"] as const;
 
 const events = defineCollection({
   loader: glob({ pattern: "**/*.md", base: "./src/content/events" }),

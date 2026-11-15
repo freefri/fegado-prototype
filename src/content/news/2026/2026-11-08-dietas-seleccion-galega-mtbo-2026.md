@@ -12,6 +12,7 @@ attachments:
     url: "https://intranet.fegado.es/intranet/media/attachments/file/44c/6af0ecc169-modelo.pdf"
   - title: "MÓDELO DIETAS EDITABLE"
     url: "https://intranet.fegado.es/intranet/media/attachments/file/66d/6af0f16b1f-modelo.docx"
+categories: ["comunicacion","mtbo"]
 ---
 
 A Federación Galega de Orientación publica o listado das persoas as que lles corresponde as dietas, gastos por desplazamentos ao Campionatode España de MTBO 2026. A cantidade a percibir será de 20€ por carreira.

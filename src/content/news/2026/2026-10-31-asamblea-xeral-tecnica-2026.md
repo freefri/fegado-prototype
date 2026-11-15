@@ -12,6 +12,7 @@ attachments:
     url: "https://teams.microsoft.com/meet/3652462570945059?p=0o4ND7VdPnNnUTETKg"
   - title: "Acta 22/11/2025"
     url: "https://intranet.fegado.es/intranet/media/attachments/file/790/6ae7b0483e-11-acta-asamblea-xeral-tecnica-22-11-2025_signed.pdf"
+categories: ["comunicacion"]
 ---
 
 Data de debate e votación das propostas: venres 6 **de novembro na ASAMBLEA XERAL TECNICA**, que será en formato online, á que están convidados especialmente os xuíces controladores, os clubs organizadores (con voz e voto) e as persoas asembleístas (con voz e voto).
