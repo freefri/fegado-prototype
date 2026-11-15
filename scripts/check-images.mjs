@@ -38,7 +38,7 @@ for (const file of readdirSync(join(root, "public")).filter((f) => IMAGE.test(f)
 }
 
 const sources = walk(join(root, "src"))
-  .filter((f) => /\.(astro|tsx?|mdx?|json)$/.test(f) && f !== registryPath)
+  .filter((f) => /\.(astro|tsx?|mdx?|json|ya?ml)$/.test(f) && f !== registryPath)
   .map((f) => readFileSync(f, "utf8"))
   .join("\n");
 

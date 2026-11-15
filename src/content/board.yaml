@@ -1,0 +1,74 @@
+# Xunta Directiva 2026-2030, from "XUNTA DIRECTIVA E CONTACTO 2026-2030" in Transparencia of
+# fegado.es. Photos and studies are only known for the four members shown in the design.
+
+- id: sonia-gomez-naya
+  name: Sonia Gómez Naya
+  role: { gl: Presidenta, es: Presidenta }
+  club: Compás
+  email: presidencia@fegado.es
+  photo: xuntaSoniaGomez
+  bio:
+    gl: [Grao en EP e Licenciada en Filoloxía Inglesa, Mestra de Ed. Física]
+    es: [Grado en EP y Licenciada en Filología Inglesa, Maestra de Ed. Física]
+- id: claudia-oreiro-chapela
+  name: Claudia Oreiro Chapela
+  role: { gl: Vicepresidenta, es: Vicepresidenta }
+  club: Gallaecia Raid
+  email: vicepresidencia@fegado.es
+  photo: xuntaClaudiaOreiro
+  bio:
+    gl: [Graduada en RRHH e Rel. laborais, Visitadora médica]
+    es: [Graduada en RRHH y Rel. laborales, Visitadora médica]
+- id: roberto-amarelle-garaban
+  name: Roberto Amarelle Garabán
+  role: { gl: Secretario, es: Secretario }
+  club: Compás
+  email: secretaria@fegado.es
+  photo: xuntaRobertoAmarelle
+  bio:
+    gl: [Licenciado en Bioloxía, Profesor]
+    es: [Licenciado en Biología, Profesor]
+- id: francisco-javier-antonon-clemente
+  name: Francisco Javier Antoñón Clemente
+  role: { gl: Tesoureiro, es: Tesorero }
+  club: ADC Arnela
+  email: tesoreria@fegado.es
+  photo: xuntaJavierAntonon
+  bio:
+    gl: [Arquitecto, Funcionario da administración local]
+    es: [Arquitecto, Funcionario de la administración local]
+- id: teresa-bellon-santos
+  name: Teresa Bellón Santos
+  role: { gl: "Vogal · O-Pé", es: "Vocal · O-Pie" }
+  club: Aromon
+  email: oripe@fegado.es
+- id: pelayo-garcia-acevedo
+  name: Pelayo García Acevedo
+  role: { gl: "Vogal · Trail-O", es: "Vocal · Trail-O" }
+  club: Aromon
+  email: trail-o@fegado.es
+- id: alicia-perez-alonso
+  name: Alicia Pérez Alonso
+  role: { gl: "Vogal · MTBO", es: "Vocal · MTBO" }
+  club: Raza Palleira
+  email: mtbo@fegado.es
+- id: jorge-pineiro-portela
+  name: Jorge Piñeiro Portela
+  role: { gl: "Vogal · Dirección técnica", es: "Vocal · Dirección técnica" }
+  club: Ártabros
+  email: direcciontecnica@fegado.es
+- id: maria-pineiro-varela
+  name: María Piñeiro Varela
+  role: { gl: "Vogal · Comunicación", es: "Vocal · Comunicación" }
+  club: Ártabros
+  email: comunicacion@fegado.es
+- id: julio-lagos-carrera
+  name: Julio Lagos Carrera
+  role: { gl: "Vogal · Escolar e universitario", es: "Vocal · Escolar y universitario" }
+  club: ADC Arnela
+  email: escolaruniversitario@fegado.es
+- id: adrian-perez-alonso
+  name: Adrián Pérez Alonso
+  role: { gl: "Vogal · Raid", es: "Vocal · Raid" }
+  club: Raza Palleira
+  email: raid@fegado.es

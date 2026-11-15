@@ -1,18 +1,21 @@
 ---
 // A button link inside page content: `to` names a page of the site, `href` an outside address.
-import { ArrowUpRight } from "@lucide/astro";
+import { ArrowUpRight, Download } from "@lucide/astro";
 import { buttonVariants } from "@/components/ui/button";
 import type { RouteKey } from "@/i18n/routes";
 import { getLangFromUrl, routePath } from "@/i18n/utils";
 
-type Props = { to: RouteKey; href?: never } | { href: string; to?: never };
+type Props = ({ to: RouteKey; href?: never } | { href: string; to?: never }) & {
+  /** A file to save, shown with a download icon instead of the outside-link arrow. */
+  download?: boolean;
+};
 
 const lang = getLangFromUrl(Astro.url);
-const { to, href } = Astro.props;
+const { to, href, download } = Astro.props;
 ---
 
 <p class="!mt-5">
   <a class={buttonVariants()} href={to ? routePath(to, lang) : href}>
-    <slot />{href && <ArrowUpRight />}
+    {download && <Download />}<slot />{href && !download && <ArrowUpRight />}
   </a>
 </p>

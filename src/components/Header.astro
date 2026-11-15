@@ -4,7 +4,7 @@ import Logo from "./Logo.astro";
 import LanguageSwitch from "./LanguageSwitch.astro";
 import { buttonVariants } from "@/components/ui/button";
 import { links } from "@/data/site";
-import { aboutPages, type RouteKey } from "@/i18n/routes";
+import { aboutPages, transparencyPages, type RouteKey } from "@/i18n/routes";
 import { getLangFromUrl, isRouteActive, localizePath, routePath, useTranslations } from "@/i18n/utils";
 import type { UiKey } from "@/i18n/ui";
 import { cn } from "@/lib/utils";
@@ -22,6 +22,7 @@ type NavItem = Link | { label: string; active: boolean; children: Link[] };
 
 const page = (key: RouteKey, label: UiKey): Link => ({ label: t(label), href: routePath(key, lang), active: isRouteActive(Astro.url, key) });
 const aboutLabels = { "who-we-are": "nav.whoWeAre", disciplines: "nav.disciplines", join: "nav.join" } as const;
+const transparencyLabels = { board: "nav.board", documents: "nav.documents", identity: "nav.identity" } as const;
 
 const nav: NavItem[] = [
   { label: t("nav.about"), active: isRouteActive(Astro.url, "about"), children: aboutPages.map((key) => page(key, aboutLabels[key])) },
@@ -30,12 +31,8 @@ const nav: NavItem[] = [
   page("clubs", "nav.clubs"),
   {
     label: t("nav.transparency"),
-    active: false,
-    children: [
-      { label: t("nav.board"), href: links.transparency },
-      { label: t("nav.documents"), href: links.transparency },
-      { label: t("nav.identity"), href: links.transparency },
-    ],
+    active: isRouteActive(Astro.url, "transparency"),
+    children: transparencyPages.map((key) => page(key, transparencyLabels[key])),
   },
   page("contact", "nav.contact"),
 ];

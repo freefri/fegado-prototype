@@ -1,9 +1,9 @@
 ---
 import ContentPage from "@/components/page/ContentPage.astro";
-import type { RouteKey } from "@/i18n/routes";
-import { aboutStaticPaths } from "@/lib/pages";
+import { aboutPages, type RouteKey } from "@/i18n/routes";
+import { sectionStaticPaths } from "@/lib/pages";
 
-export const getStaticPaths = () => aboutStaticPaths("es");
+export const getStaticPaths = () => sectionStaticPaths(aboutPages, "es");
 ---
 
 <ContentPage page={(Astro.props as { page: RouteKey }).page} />

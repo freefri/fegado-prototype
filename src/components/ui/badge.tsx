@@ -10,6 +10,7 @@ const badgeVariants = cva(
       variant: {
         default: "border-chip-border bg-chip px-[9px] py-[6px] text-chip-ink",
         dark: "border-transparent bg-black px-[9px] py-[6px] text-white",
+        outline: "border-chip bg-white px-[9px] py-[6px] text-chip-ink",
       },
     },
     defaultVariants: { variant: "default" },

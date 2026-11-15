@@ -1,6 +1,7 @@
 import { defineCollection } from "astro:content";
 import { file, glob } from "astro/loaders";
 import { z } from "astro/zod";
+import { documentCategoryKeys } from "@/data/documents";
 import { clubLogos, images, type ImageId } from "@/data/images";
 
 const imageId = z
@@ -53,6 +54,8 @@ const pages = defineCollection({
     title: z.string(),
     intro: z.string(),
     image: imageId.optional(),
+    /** Full-width layout, for pages built around a grid of cards. */
+    wide: z.boolean().default(false),
   }),
 });
 
@@ -69,4 +72,29 @@ const clubs = defineCollection({
   }),
 });
 
-export const collections = { news, events, pages, clubs };
+/** Public documents of the federation; the files themselves stay on fegado.es. */
+const documents = defineCollection({
+  loader: file("./src/content/documents.json"),
+  schema: z.object({
+    title: z.string(),
+    date: z.coerce.date(),
+    category: z.enum(documentCategoryKeys),
+    url: z.url(),
+  }),
+});
+
+const localized = z.object({ gl: z.string(), es: z.string() });
+
+const board = defineCollection({
+  loader: file("./src/content/board.yaml"),
+  schema: z.object({
+    name: z.string(),
+    role: localized,
+    club: z.string(),
+    email: z.email(),
+    photo: imageId.optional(),
+    bio: z.object({ gl: z.array(z.string()), es: z.array(z.string()) }).optional(),
+  }),
+});
+
+export const collections = { news, events, pages, clubs, documents, board };

@@ -44,14 +44,19 @@ import federate from "@/assets/images/federate.jpg";
 import federateLicenza from "@/assets/images/federate-licenza.jpg";
 import federateRaid from "@/assets/images/federate-raid.jpg";
 import federateCurso from "@/assets/images/federate-curso.jpg";
+import xuntaSoniaGomez from "@/assets/images/xunta-sonia-gomez.jpg";
+import xuntaClaudiaOreiro from "@/assets/images/xunta-claudia-oreiro.jpg";
+import xuntaRobertoAmarelle from "@/assets/images/xunta-roberto-amarelle.jpg";
+import xuntaJavierAntonon from "@/assets/images/xunta-javier-antonon.jpg";
 
 const FIGMA_HOME = "Figma, prototipo de Nuria Oujo Míguez, pantalla de inicio (nodo 2015:90104)";
 const FIGMA_ABOUT = "Figma, prototipo de Nuria Oujo Míguez, Sobre FEGADO > Quen somos (nodo 2015:90892)";
 const FIGMA_DISCIPLINES = "Figma, prototipo de Nuria Oujo Míguez, Sobre FEGADO > Modalidades (nodo 2015:91166)";
 const FIGMA_JOIN = "Figma, prototipo de Nuria Oujo Míguez, Sobre FEGADO > Fedérate (nodo 2015:91006)";
+const FIGMA_BOARD = "Figma, prototipo de Nuria Oujo Míguez, Transparencia > Xunta Directiva (nodo 2015:91995)";
 const FEGADO_TEMPLATES = "fegado.es, web/templates/images/";
 
-type Owner = "FEGADO" | "Club organizador" | "Entidad patrocinadora";
+type Owner = "FEGADO" | "Club organizador" | "Entidad patrocinadora" | "Persona retratada";
 
 interface RegisteredImage {
   src: ImageMetadata;
@@ -270,6 +275,30 @@ export const images = {
     origin: FIGMA_JOIN,
     owner: "FEGADO",
     alt: { gl: "Entrega dun mapa durante unha actividade", es: "Entrega de un mapa durante una actividad" },
+  },
+  xuntaSoniaGomez: {
+    src: xuntaSoniaGomez,
+    origin: FIGMA_BOARD,
+    owner: "Persona retratada",
+    alt: { gl: "Sonia Gómez Naya", es: "Sonia Gómez Naya" },
+  },
+  xuntaClaudiaOreiro: {
+    src: xuntaClaudiaOreiro,
+    origin: FIGMA_BOARD,
+    owner: "Persona retratada",
+    alt: { gl: "Claudia Oreiro Chapela", es: "Claudia Oreiro Chapela" },
+  },
+  xuntaRobertoAmarelle: {
+    src: xuntaRobertoAmarelle,
+    origin: FIGMA_BOARD,
+    owner: "Persona retratada",
+    alt: { gl: "Roberto Amarelle Garabán", es: "Roberto Amarelle Garabán" },
+  },
+  xuntaJavierAntonon: {
+    src: xuntaJavierAntonon,
+    origin: FIGMA_BOARD,
+    owner: "Persona retratada",
+    alt: { gl: "Francisco Javier Antoñón Clemente", es: "Francisco Javier Antoñón Clemente" },
   },
 } as const satisfies Record<string, RegisteredImage>;
 

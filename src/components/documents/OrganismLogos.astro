@@ -1,0 +1,15 @@
+---
+// Logos of public bodies, filed as identity documents on fegado.es; used from MDX.
+import { getCollection } from "astro:content";
+import { DocumentCard } from "./DocumentCard";
+import { getLangFromUrl } from "@/i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const logos = (await getCollection("documents"))
+  .filter(({ data }) => data.category === "identidade" && data.title.startsWith("Logo "))
+  .sort((a, b) => a.data.title.localeCompare(b.data.title));
+---
+
+<ul class="!mt-6 grid max-w-[840px] list-none gap-[15px] p-0">
+  {logos.map(({ id, data }) => <DocumentCard item={{ id, title: data.title, date: data.date.toISOString(), url: data.url }} lang={lang} />)}
+</ul>

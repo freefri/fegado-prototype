@@ -1,0 +1,47 @@
+---
+// The members of the Xunta Directiva as cards; used from MDX.
+import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
+import { badgeVariants } from "@/components/ui/badge";
+import { images } from "@/data/images";
+import { getLangFromUrl } from "@/i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+// Collections come back sorted by id, so the board is put back in the order of its offices.
+const offices = ["Presidenta", "Vicepresidenta", "Secretario", "Tesoureiro"];
+const rank = (role: string) => {
+  const index = offices.indexOf(role);
+  return index === -1 ? offices.length : index;
+};
+const members = (await getCollection("board")).sort(
+  (a, b) => rank(a.data.role.gl) - rank(b.data.role.gl) || a.data.name.localeCompare(b.data.name),
+);
+const initials = (name: string) =>
+  name
+    .split(" ")
+    .filter((word) => word.length > 2)
+    .slice(0, 2)
+    .map((word) => word[0])
+    .join("");
+---
+
+<ul class="!mt-0 grid list-none gap-[15px] p-0 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-[30px]">
+  {members.map(({ data }) => (
+    <li class="flex flex-col rounded-[14px] border border-blue-border bg-white p-[21px]">
+      {data.photo ? (
+        <Image src={images[data.photo].src} alt="" widths={[186, 372]} sizes="186px" class="mx-auto mb-6 aspect-square w-[186px] rounded-full object-cover" />
+      ) : (
+        <span class="mx-auto mb-6 grid aspect-square w-[186px] place-items-center rounded-full bg-chip font-heading text-5xl text-chip-ink" aria-hidden="true">
+          {initials(data.name)}
+        </span>
+      )}
+      <span class={badgeVariants({ className: "mb-3" })}>{data.role[lang]}</span>
+      <h2 class="mb-2 text-2xl text-ink">{data.name}</h2>
+      <p class="text-[13px] leading-[1.5] font-light text-muted">
+        {data.bio?.[lang].map((line) => <>{line}<br /></>)}
+        Club: {data.club}
+      </p>
+      <a class="mt-auto pt-4 text-[17px] font-light break-all text-chip-ink italic no-underline hover:underline" href={`mailto:${data.email}`}>{data.email}</a>
+    </li>
+  ))}
+</ul>

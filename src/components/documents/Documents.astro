@@ -1,0 +1,49 @@
+---
+import { getCollection } from "astro:content";
+import DocumentList from "./DocumentList";
+import { documentCategories, documentGroups, type DocumentGroup } from "@/data/documents";
+import { getLangFromUrl, useTranslations } from "@/i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const documents = (await getCollection("documents"))
+  .filter(({ data }) => documentCategories[data.category].group !== null)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const items = documents.map(({ id, data }) => {
+  const category = documentCategories[data.category];
+  return {
+    id,
+    title: data.title,
+    date: data.date.toISOString(),
+    url: data.url,
+    group: documentGroups[category.group as DocumentGroup][lang],
+    category: category[lang],
+    categoryKey: data.category,
+  };
+});
+
+// Only categories that have documents, so no filter ever leads to an empty list.
+const used = new Set(documents.map(({ data }) => data.category));
+const groups = (Object.keys(documentGroups) as DocumentGroup[]).map((group) => ({
+  key: group,
+  label: documentGroups[group][lang],
+  categories: Object.entries(documentCategories)
+    .filter(([key, category]) => category.group === group && used.has(key as keyof typeof documentCategories))
+    .map(([key, category]) => ({ key, label: category[lang] })),
+}));
+
+const labels = {
+  search: t("documents.search"),
+  filters: t("documents.filters"),
+  clear: t("documents.clear"),
+  previous: t("newsList.previous"),
+  next: t("newsList.next"),
+  pagination: t("newsList.pagination"),
+  results: t("documents.results"),
+  noResults: t("documents.noResults"),
+};
+---
+
+<DocumentList client:load items={items} groups={groups} lang={lang} labels={labels} />

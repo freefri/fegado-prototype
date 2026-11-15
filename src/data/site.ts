@@ -6,7 +6,6 @@ const INTRANET = "https://intranet.fegado.es";
 
 export const links = {
   events: `${LIVE}/events/`,
-  transparency: `${LIVE}/federation/downloads/`,
   cookies: `${LIVE}/cookies/`,
   legal: `${LIVE}/legal/`,
   privacy: `${LIVE}/privacy/`,
